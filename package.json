@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "postinstall": "bower install;grunt;"
+    "postinstall": "./node_modules/.bin/bower install"
   },
   "dependencies": {
     "express": "3.4.8",
