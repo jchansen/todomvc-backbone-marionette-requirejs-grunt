@@ -13,8 +13,5 @@
     "grunt": "~0.4.1",
     "grunt-contrib-requirejs": "*",
     "bower": "~1.2.8"
-  },
-  "scripts": {
-    "postinstall": "node ./node_modules/bower/bin/bower install"
   }
 }
