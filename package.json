@@ -15,6 +15,6 @@
     "bower": "~1.2.8"
   },
   "scripts": {
-    "postinstall": "node_modules/bower/bin/bower install"
+    "postinstall": "node ./node_modules/bower/bin/bower install"
   }
 }
