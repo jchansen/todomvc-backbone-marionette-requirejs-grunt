@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -11,6 +10,8 @@ var path = require('path');
 
 var app = express();
 
+app.set('env', process.env.NODE_ENV || 'development');
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +22,12 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+
+if ('development' == app.get('env')) {
+  app.use(express.static(path.join(__dirname, 'public')));
+}else{
+  app.use(express.static(path.join(__dirname, 'public_compiled')));
+}
 
 // development only
 if ('development' == app.get('env')) {
