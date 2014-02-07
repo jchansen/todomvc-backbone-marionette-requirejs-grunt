@@ -10,7 +10,7 @@ var path = require('path');
 
 var app = express();
 
-app.set('env', process.env.NODE_ENV || 'development');
+//app.set('env', process.env.NODE_ENV || 'development');
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -23,11 +23,11 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 
-if ('development' == app.get('env')) {
-  app.use(express.static(path.join(__dirname, 'public')));
-}else{
+//if ('development' == app.get('env')) {
+//  app.use(express.static(path.join(__dirname, 'public')));
+//}else{
   app.use(express.static(path.join(__dirname, 'public_compiled')));
-}
+//}
 
 // development only
 if ('development' == app.get('env')) {
