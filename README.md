@@ -1,1 +1,1 @@
-https://www.codeship.io/projects/30d47160-71f2-0131-4df5-1ed74a8380e9/status
+![CodeShip Status](https://www.codeship.io/projects/30d47160-71f2-0131-4df5-1ed74a8380e9/status)
