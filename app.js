@@ -24,9 +24,9 @@ app.use(express.methodOverride());
 app.use(app.router);
 
 //if ('development' == app.get('env')) {
-  //app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'public')));
 //}else{
-  app.use(express.static(path.join(__dirname, 'public_compiled')));
+  //app.use(express.static(path.join(__dirname, 'public_compiled')));
 //}
 
 // development only
