@@ -2,8 +2,10 @@
 
 define([
 	'marionette',
-	'templates'
-], function (Marionette, templates) {
+	'templates',
+  'tpl!templates/todoItemView.tmpl',
+  'text!templates/todoItemView.html'
+], function (Marionette, templates, tplTemplate, textTemplate) {
 	'use strict';
 
 	var ENTER_KEY = 13;

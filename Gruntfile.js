@@ -6,7 +6,7 @@ module.exports = function (grunt) {
       compile: {
         options: {
           mainConfigFile: "public/app/main.js",
-          appDir: 'public/',
+          appDir: 'public',
           baseUrl: 'app',
           dir: "public_compiled",
           removeCombined: true,

@@ -6,8 +6,9 @@ require.config({
 		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
 		jquery: '../bower_components/jquery/jquery',
 		localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
-		tpl: 'lib/tpl'
-	},
+		tpl: 'lib/tpl',
+    text: 'lib/text'
+  },
 
 	shim: {
 		underscore: {
