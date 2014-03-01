@@ -10,7 +10,7 @@ module.exports = function (grunt) {
           baseUrl: 'app',
           dir: "public_compiled",
           removeCombined: true,
-          optimize: 'none',
+          //optimize: 'none',
           modules: [
             {
               name: "main"
