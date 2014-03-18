@@ -1,30 +1,31 @@
 /*global define */
 
-define([
-	'backbone',
-	'models/Todo',
-	'localStorage'
-], function (Backbone, Todo) {
-	'use strict';
+define(
+  [
+    'backbone',
+    'models/Todo'
+  ],
+  function (Backbone, Todo) {
+    'use strict';
 
-	function isCompleted(todo) {
-		return todo.get('completed');
-	}
+    function isCompleted(todo) {
+      return todo.get('completed');
+    }
 
-	return Backbone.Collection.extend({
-		model: Todo,
-    url: "http://todomvc-api.herokuapp.com/api/todos",
+    return Backbone.Collection.extend({
+      model: Todo,
+      url: "http://todomvc-api.herokuapp.com/api/todos",
 
-		getCompleted: function () {
-			return this.filter(isCompleted);
-		},
+      getCompleted: function () {
+        return this.filter(isCompleted);
+      },
 
-		getActive: function () {
-			return this.reject(isCompleted);
-		},
+      getActive: function () {
+        return this.reject(isCompleted);
+      },
 
-		comparator: function (todo) {
-			return todo.get('created');
-		}
-	});
-});
+      comparator: function (todo) {
+        return todo.get('created');
+      }
+    });
+  });
