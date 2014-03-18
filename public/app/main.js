@@ -1,45 +1,47 @@
 require.config({
   baseUrl: '/app',
-	paths: {
-		underscore: '../bower_components/underscore/underscore',
-		backbone: '../bower_components/backbone/backbone',
-		marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
-		jquery: '../bower_components/jquery/jquery',
-		localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
-		tpl: 'lib/tpl',
+  paths: {
+    underscore: '../bower_components/underscore/underscore',
+    backbone: '../bower_components/backbone/backbone',
+    marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
+    jquery: '../bower_components/jquery/jquery',
+    localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
+    tpl: 'lib/tpl',
     text: 'lib/text'
   },
 
-	shim: {
-		underscore: {
-			exports: '_'
-		},
+  shim: {
+    underscore: {
+      exports: '_'
+    },
 
-		backbone: {
-			exports: 'Backbone',
-			deps: ['jquery', 'underscore']
-		},
+    backbone: {
+      exports: 'Backbone',
+      deps: ['jquery', 'underscore']
+    },
 
-		marionette: {
-			exports: 'Backbone.Marionette',
-			deps: ['backbone']
-		}
-	},
+    marionette: {
+      exports: 'Backbone.Marionette',
+      deps: ['backbone']
+    }
+  },
 
-	deps: ['jquery', 'underscore']
+  deps: ['jquery', 'underscore']
 });
 
-require([
-	'app',
-	'backbone',
-	'routers/index',
-	'controllers/index'
-], function (app, Backbone, Router, Controller) {
-	'use strict';
+require(
+  [
+    'app',
+    'backbone',
+    'routers/index',
+    'controllers/index'
+  ],
+  function (app, Backbone, Router, Controller) {
+    'use strict';
 
-	app.start();
+    app.start();
 
-	new Router({ controller: Controller });
+    new Router({ controller: Controller });
 
-	Backbone.history.start();
-});
+    Backbone.history.start();
+  });
