@@ -4,12 +4,11 @@ define(
   [
     'marionette',
     'collections/TodoList',
-    'modules/header/Header',
+    'modules/header/Module',
     'modules/main/TodoListCompositeView',
-    'modules/footer/Footer',
-    'modules/header/Module'
+    'modules/footer/Module'
   ],
-  function (Marionette, TodoList, Header, TodoListCompositeView, Footer, HeaderModule) {
+  function (Marionette, TodoList, HeaderModule, TodoListCompositeView, FooterModule) {
     'use strict';
 
     var app = new Marionette.Application();
@@ -19,9 +18,9 @@ define(
       collection: todoList
     };
 
-    var header = new Header(viewOptions);
+    var header = null;
     var main = new TodoListCompositeView(viewOptions);
-    var footer = new Footer(viewOptions);
+    var footer = null;
 
     app.addRegions({
       header: '#header',
@@ -30,13 +29,17 @@ define(
     });
 
     app.addInitializer(function () {
-      //app.header.show(header);
-
       var headerModule = new HeaderModule(viewOptions);
-      headerModule.render(app.header);
+      headerModule.render(app.header).done(function(view){
+        header = view;
+      });
 
       app.main.show(main);
-      app.footer.show(footer);
+
+      var footerModule = new FooterModule(viewOptions);
+      footerModule.render(app.footer).done(function(view){
+        footer = view;
+      });
 
       todoList.fetch();
     });
@@ -47,7 +50,7 @@ define(
     });
 
     app.vent.on('todoList:filter', function (filter) {
-      footer.updateFilterSelection(filter);
+      if(footer) footer.updateFilterSelection(filter);
 
       document.getElementById('todoapp').className = 'filter-' + (filter === '' ? 'all' : filter);
     });
