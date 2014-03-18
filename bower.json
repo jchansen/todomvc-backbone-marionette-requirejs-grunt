@@ -7,6 +7,7 @@
     "underscore": "~1.4.4",
     "backbone.marionette": "~1.0.3",
     "backbone.localStorage": "~1.1.4",
-    "jquery": "~1.9.1"
+    "jquery": "~1.9.1",
+    "q": "1.0.0"
   }
 }

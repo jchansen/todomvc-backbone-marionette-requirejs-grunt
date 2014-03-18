@@ -6,9 +6,10 @@ define(
     'collections/TodoList',
     'modules/header/Header',
     'modules/main/TodoListCompositeView',
-    'modules/footer/Footer'
+    'modules/footer/Footer',
+    'modules/header/Module'
   ],
-  function (Marionette, TodoList, Header, TodoListCompositeView, Footer) {
+  function (Marionette, TodoList, Header, TodoListCompositeView, Footer, HeaderModule) {
     'use strict';
 
     var app = new Marionette.Application();
@@ -29,7 +30,11 @@ define(
     });
 
     app.addInitializer(function () {
-      app.header.show(header);
+      //app.header.show(header);
+
+      var headerModule = new HeaderModule();
+      headerModule.render(app.header);
+
       app.main.show(main);
       app.footer.show(footer);
 
