@@ -101,6 +101,16 @@
   // ---------------
   Conductor.ItemViewModule = Conductor.Module.extend({
 
+    renderModule: function(region) {
+      var defer = Q.defer();
+
+      var view = new this.view(this.options);
+      region.show(view);
+      defer.resolve(view);
+
+      return defer.promise;
+    }
+
   });
 
   // CollectionView Module

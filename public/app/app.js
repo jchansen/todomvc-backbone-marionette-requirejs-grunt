@@ -32,7 +32,7 @@ define(
     app.addInitializer(function () {
       //app.header.show(header);
 
-      var headerModule = new HeaderModule();
+      var headerModule = new HeaderModule(viewOptions);
       headerModule.render(app.header);
 
       app.main.show(main);
