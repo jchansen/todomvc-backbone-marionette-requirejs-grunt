@@ -7,7 +7,7 @@ define([
 	'use strict';
 
 	return Backbone.Model.extend({
-		localStorage: new Backbone.LocalStorage('todos-backbone'),
+		urlRoot: "http://todomvc-api.herokuapp.com/api/todos",
 
 		defaults: {
 			title: '',

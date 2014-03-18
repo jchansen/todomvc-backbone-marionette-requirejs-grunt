@@ -13,8 +13,7 @@ define([
 
 	return Backbone.Collection.extend({
 		model: Todo,
-
-		localStorage: new Backbone.LocalStorage('todos-backbone'),
+    url: "http://todomvc-api.herokuapp.com/api/todos",
 
 		getCompleted: function () {
 			return this.filter(isCompleted);
