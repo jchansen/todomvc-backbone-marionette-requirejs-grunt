@@ -23,7 +23,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 
-if (app.get('NODE_ENV') == 'PRODUCTION') {
+if (process.env.NODE_ENV == 'PRODUCTION') {
   app.use(express.static(path.join(__dirname, 'public_compiled')));
 }else{
   app.use(express.static(path.join(__dirname, 'public')));
