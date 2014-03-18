@@ -2,14 +2,14 @@
 
 define([
 	'marionette',
-	'templates',
+  'tpl!templates/footer.html',
 	'views/ActiveCount',
 	'views/CompletedCount'
-], function (Marionette, templates, ActiveCount, CompletedCount) {
+], function (Marionette, template, ActiveCount, CompletedCount) {
 	'use strict';
 
 	return Marionette.Layout.extend({
-		template: templates.footer,
+		template: template,
 
 		regions: {
 			activeCount: '#todo-count',

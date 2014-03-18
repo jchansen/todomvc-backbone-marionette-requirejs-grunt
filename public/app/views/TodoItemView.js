@@ -2,10 +2,8 @@
 
 define([
 	'marionette',
-	'templates',
-  'tpl!templates/todoItemView.tmpl',
-  'text!templates/todoItemView.html'
-], function (Marionette, templates, tplTemplate, textTemplate) {
+  'tpl!templates/todoItemView.html'
+], function (Marionette, template) {
 	'use strict';
 
 	var ENTER_KEY = 13;
@@ -14,7 +12,7 @@ define([
 	return Marionette.CompositeView.extend({
 		tagName: 'li',
 
-		template: templates.todoItemView,
+		template: template,
 
 		value: '',
 

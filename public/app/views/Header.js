@@ -2,12 +2,12 @@
 
 define([
 	'marionette',
-	'templates'
-], function (Marionette, templates) {
+  'tpl!templates/header.html'
+], function (Marionette, template) {
 	'use strict';
 
 	return Marionette.ItemView.extend({
-		template: templates.header,
+		template: template,
 
 		ui: {
 			input: '#new-todo'

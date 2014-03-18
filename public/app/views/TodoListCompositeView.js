@@ -2,13 +2,13 @@
 
 define([
 	'marionette',
-	'templates',
+  'tpl!templates/todoListCompositeView.html',
 	'views/TodoItemView'
-], function (Marionette, templates, ItemView) {
+], function (Marionette, template, ItemView) {
 	'use strict';
 
 	return Marionette.CompositeView.extend({
-		template: templates.todosCompositeView,
+		template: template,
 
 		itemView: ItemView,
 
