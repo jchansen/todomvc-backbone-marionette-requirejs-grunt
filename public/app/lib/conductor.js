@@ -84,6 +84,19 @@
     // this method should be overridden by whatever class extends it
     renderModule: function (region) {
       throwError("module is abstract");
+    },
+
+    // Common render functions
+    // -----------------------
+
+    _renderView: function(region){
+      var defer = Q.defer();
+
+      var view = new this.view(this.options);
+      region.show(view);
+      defer.resolve(view);
+
+      return defer.promise;
     }
 
   });
@@ -102,13 +115,7 @@
   Conductor.ItemViewModule = Conductor.Module.extend({
 
     renderModule: function(region) {
-      var defer = Q.defer();
-
-      var view = new this.view(this.options);
-      region.show(view);
-      defer.resolve(view);
-
-      return defer.promise;
+      return this._renderView(region);
     }
 
   });
@@ -125,13 +132,7 @@
 
     // currently identical to ItemViewModule.renderModule
     renderModule: function(region) {
-      var defer = Q.defer();
-
-      var view = new this.view(this.options);
-      region.show(view);
-      defer.resolve(view);
-
-      return defer.promise;
+      return this._renderView(region);
     }
 
   });
