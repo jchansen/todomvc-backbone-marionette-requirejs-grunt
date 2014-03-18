@@ -5,10 +5,11 @@ define(
     'marionette',
     'collections/TodoList',
     'modules/header/Module',
-    'modules/main/TodoListCompositeView',
-    'modules/footer/Module'
+    //'modules/main/TodoListCompositeView',
+    'modules/footer/Module',
+    'modules/main/Module'
   ],
-  function (Marionette, TodoList, HeaderModule, TodoListCompositeView, FooterModule) {
+  function (Marionette, TodoList, HeaderModule, FooterModule, MainModule) {
     'use strict';
 
     var app = new Marionette.Application();
@@ -19,7 +20,7 @@ define(
     };
 
     var header = null;
-    var main = new TodoListCompositeView(viewOptions);
+    var main = null;//new TodoListCompositeView(viewOptions);
     var footer = null;
 
     app.addRegions({
@@ -34,7 +35,11 @@ define(
         header = view;
       });
 
-      app.main.show(main);
+      //app.main.show(main);
+      var mainModule = new MainModule(viewOptions);
+      mainModule.render(app.main).done(function(view){
+        main = view;
+      });
 
       var footerModule = new FooterModule(viewOptions);
       footerModule.render(app.footer).done(function(view){

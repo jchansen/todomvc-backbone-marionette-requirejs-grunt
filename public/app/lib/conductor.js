@@ -123,6 +123,17 @@
   // --------------------
   Conductor.CompositeViewModule = Conductor.Module.extend({
 
+    // currently identical to ItemViewModule.renderModule
+    renderModule: function(region) {
+      var defer = Q.defer();
+
+      var view = new this.view(this.options);
+      region.show(view);
+      defer.resolve(view);
+
+      return defer.promise;
+    }
+
   });
 
   // Set up inheritance for all modules types
