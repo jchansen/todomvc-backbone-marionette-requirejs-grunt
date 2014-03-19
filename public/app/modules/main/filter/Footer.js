@@ -16,12 +16,12 @@ define(
       className: 'footer',
 
       regions: {
-        activeCount: '#todo-count',
-        completedCount: '#clear-completed'
+        activeCount: '.todo-count',
+        completedCount: '.clear-completed'
       },
 
       ui: {
-        filters: '#filters a'
+        filters: '.filters a'
       },
 
       events: {

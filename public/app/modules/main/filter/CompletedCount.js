@@ -12,7 +12,7 @@ define([
 		},
 
 		render: function () {
-			this.$el = $('#clear-completed');
+			this.$el = $('.clear-completed');
 
 			var completedTodos = this.collection.getCompleted();
 

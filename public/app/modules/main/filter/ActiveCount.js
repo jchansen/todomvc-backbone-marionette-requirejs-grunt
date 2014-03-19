@@ -12,7 +12,7 @@ define([
 		},
 
 		render: function () {
-			this.$el = $('#todo-count');
+			this.$el = $('.todo-count');
 
 			var itemsLeft = this.collection.getActive().length;
 			var itemsWord = itemsLeft < 1 || itemsLeft > 1 ? 'items' : 'item';
