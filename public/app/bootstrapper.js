@@ -12,28 +12,13 @@ define(
 
     return {
       run: function(){
-        var todoList = new TodoList();
-
-        var viewOptions = {
-          collection: todoList
-        };
-
-        var header = null;
-        var main = null;
-        var footer = null;
 
         app.addInitializer(function () {
-          var headerModule = new HeaderModule(viewOptions);
-          headerModule.render(app.header).done(function(view){
-            header = view;
-          });
+          var headerModule = new HeaderModule();
+          headerModule.render(app.header).done();
 
           var mainModule = new MainModule();
-          mainModule.render(app.main).done(function(view){
-            main = view;
-          });
-
-          todoList.fetch();
+          mainModule.render(app.main).done();
         });
 
 //        app.listenTo(todoList, 'all', function () {
