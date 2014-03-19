@@ -3,10 +3,11 @@
     'conductor',
     './Layout',
     './list/Module',
+    './filter/Module',
     'app',
     'q'
   ],
-  function (Conductor, Layout, ListModule, app, Q) {
+  function (Conductor, Layout, ListModule, FilterModule, app, Q) {
 
     return Conductor.LayoutModule.extend({
       view: Layout,
@@ -15,6 +16,10 @@
         {
           module: ListModule,
           region: "listRegion"
+        },
+        {
+          module: FilterModule,
+          region: "filterRegion"
         }
       ],
 

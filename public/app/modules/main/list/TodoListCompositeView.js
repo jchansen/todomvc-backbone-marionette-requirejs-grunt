@@ -11,6 +11,7 @@ define(
 
     return Marionette.CompositeView.extend({
       template: template,
+      className: "main",
 
       itemView: ItemView,
 

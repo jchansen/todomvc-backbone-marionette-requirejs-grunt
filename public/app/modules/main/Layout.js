@@ -1,30 +1,29 @@
 ﻿define(
-    [
-      'marionette',
-      'tpl!./layout.html'
-    ],
-    function (Marionette, template) {
+  [
+    'marionette',
+    'tpl!./layout.html'
+  ],
+  function (Marionette, template) {
 
-      return Marionette.Layout.extend({
-        template: template,
-        tagName: 'section',
-        id: 'main',
+    return Marionette.Layout.extend({
+      template: template,
 
-        regions: {
-	        "listRegion": '#list'
-        },
+      regions: {
+        listRegion: '#listRegion',
+        filterRegion: '#filterRegion'
+      },
 
-        initialize: function(options){
-          this.listenTo(this.collection, 'all', this.updateVisibility);
-        },
+      initialize: function (options) {
+        this.listenTo(this.collection, 'all', this.updateVisibility);
+      },
 
-        onRender: function(){
-          this.updateVisibility(this.collection);
-        },
+      onRender: function () {
+        this.updateVisibility(this.collection);
+      },
 
-        updateVisibility: function(collection){
-          this.$el.toggle(collection.length > 0);
-        }
+      updateVisibility: function (collection) {
+        this.$el.toggle(collection.length > 0);
+      }
 
-      });
     });
+  });

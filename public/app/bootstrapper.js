@@ -34,10 +34,10 @@ define(
             main = view;
           });
 
-          var footerModule = new FooterModule(viewOptions);
-          footerModule.render(app.footer).done(function(view){
-            footer = view;
-          });
+//          var footerModule = new FooterModule(viewOptions);
+//          footerModule.render(app.footer).done(function(view){
+//            footer = view;
+//          });
 
           todoList.fetch();
         });

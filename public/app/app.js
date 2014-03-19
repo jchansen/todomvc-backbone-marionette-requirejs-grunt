@@ -12,9 +12,9 @@ define(
     window.app = app;
 
     app.addRegions({
-      header: '#header',
+      header: '#headerRegion',
       main: '#mainRegion',
-      footer: '#footer'
+      footer: '#footerRegion'
     });
 
     app.on("initialize:before", function () {
