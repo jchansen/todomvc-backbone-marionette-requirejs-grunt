@@ -18,11 +18,11 @@
       },
 
       onRender: function () {
-        this.updateVisibility(this.collection);
+        this.updateVisibility();
       },
 
-      updateVisibility: function (collection) {
-        this.$el.toggle(collection.length > 0);
+      updateVisibility: function () {
+        this.$el.toggle(this.collection.length > 0);
       }
 
     });
