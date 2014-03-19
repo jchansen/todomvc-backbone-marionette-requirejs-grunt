@@ -28,7 +28,7 @@ require.config({
     },
 
     'conductor': {
-      deps: ['backbone', 'marionette', 'q'],
+      deps: ['underscore', 'backbone', 'marionette', 'q'],
       exports: 'Conductor'
     }
   },
@@ -38,17 +38,12 @@ require.config({
 
 require(
   [
-    'app',
-    'backbone',
+    'bootstrapper',
     'routers/index',
     'controllers/index'
   ],
-  function (app, Backbone, Router, Controller) {
+  function (bootstrapper, Router, Controller) {
     'use strict';
-
-    app.start();
-
     new Router({ controller: Controller });
-
-    Backbone.history.start();
+    bootstrapper.run();
   });

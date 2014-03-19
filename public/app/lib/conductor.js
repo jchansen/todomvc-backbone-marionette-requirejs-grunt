@@ -8,6 +8,12 @@
   // on the server).
   var root = this;
 
+  // Require Underscore if it's not already present.
+  var _ = root._;
+  if (!_ && (typeof require !== 'undefined')) {
+    _ = require('underscore');
+  }
+
   // Require Backbone if it's not already present.
   var Backbone = root.Backbone;
   if (!Backbone && (typeof require !== 'undefined')) {
@@ -57,7 +63,7 @@
     this.initialize.apply(this, arguments);
   };
 
-  var moduleOptions = ['view', 'submodules'];
+  var moduleOptions = ['view', 'submodules', 'data'];
 
   _.extend(Module.prototype, {
 
@@ -91,10 +97,24 @@
 
     _renderView: function(region){
       var defer = Q.defer();
+      var promises = [];
+      var keys = [];
 
-      var view = new this.view(this.options);
-      region.show(view);
-      defer.resolve(view);
+      for(var key in this.data){
+        promises.push(this.data[key]());
+        keys.push(key);
+      }
+
+      var that = this;
+      Q.all(promises).done(function(result){
+        var newOptions = {};
+        for(var i in keys){
+          newOptions[keys[i]] = result[i];
+        }
+        var view = new that.view(_.extend(newOptions, that.options));
+        region.show(view);
+        defer.resolve(view);
+      });
 
       return defer.promise;
     }
@@ -107,6 +127,32 @@
   // Layout Module
   // -------------
   Conductor.LayoutModule = Conductor.Module.extend({
+
+    _renderSubmodules: function(layout, defer) {
+      var promises = [];
+
+      _.each(this.submodules, function (submodule) {
+        var module = new submodule["module"]();
+        var regionName = submodule["region"];
+        var region = layout[regionName];
+        var promise = module.render(region);
+        promises.push(promise);
+      });
+
+      // Resolves after all the modules are inserted into the layout
+      Q.all(promises).done(function () {
+        defer.resolve(layout);
+      });
+    },
+
+    renderModule: function(region) {
+      var defer = Q.defer();
+      var self = this;
+      this._renderView(region).done(function(layout){
+        self._renderSubmodules(layout, defer);
+      });
+      return defer.promise;
+    }
 
   });
 
