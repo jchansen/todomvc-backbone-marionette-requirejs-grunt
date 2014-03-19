@@ -2,7 +2,6 @@
   "name": "todomvc-backbone_marionette_require",
   "version": "0.0.0",
   "dependencies": {
-    "todomvc-common": "~0.1.9",
     "requirejs": "~2.1.11",
     "underscore": "~1.6.0",
     "backbone.marionette": "~1.6.4",
