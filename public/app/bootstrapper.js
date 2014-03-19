@@ -2,16 +2,15 @@
 
 define(
   [
-    'marionette',
-    'collections/TodoList',
     'modules/header/Module',
-    'modules/main/Module',
+    'modules/main/list/Module',
+    'modules/main/filter/Module',
 
     // routers and controllers
     'routers/index',
     'controllers/index'
   ],
-  function (Marionette, TodoList, HeaderModule, MainModule, Router, Controller) {
+  function (HeaderModule, ListModule, FilterModule, Router, Controller) {
     'use strict';
 
     return {
@@ -20,11 +19,9 @@ define(
         new Router({ controller: Controller });
 
         app.addInitializer(function () {
-          var headerModule = new HeaderModule();
-          headerModule.render(app.header).done();
-
-          var mainModule = new MainModule();
-          mainModule.render(app.main).done();
+          (new HeaderModule()).render(app.header).done();
+          (new ListModule()).render(app.list).done();
+          (new FilterModule()).render(app.filter).done();
         });
 
 //        app.listenTo(todoList, 'all', function () {

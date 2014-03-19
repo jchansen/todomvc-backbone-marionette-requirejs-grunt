@@ -13,8 +13,8 @@ define(
 
     app.addRegions({
       header: '#headerRegion',
-      main: '#mainRegion',
-      footer: '#footerRegion'
+      list: '#listRegion',
+      filter: '#filterRegion'
     });
 
     app.on("initialize:before", function () {
