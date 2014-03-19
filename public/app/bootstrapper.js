@@ -5,10 +5,9 @@ define(
     'marionette',
     'collections/TodoList',
     'modules/header/Module',
-    'modules/footer/Module',
     'modules/main/Module'
   ],
-  function (Marionette, TodoList, HeaderModule, FooterModule, MainModule) {
+  function (Marionette, TodoList, HeaderModule, MainModule) {
     'use strict';
 
     return {
@@ -33,11 +32,6 @@ define(
           mainModule.render(app.main).done(function(view){
             main = view;
           });
-
-//          var footerModule = new FooterModule(viewOptions);
-//          footerModule.render(app.footer).done(function(view){
-//            footer = view;
-//          });
 
           todoList.fetch();
         });
