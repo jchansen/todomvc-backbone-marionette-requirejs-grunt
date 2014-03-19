@@ -38,12 +38,10 @@ require.config({
 
 require(
   [
-    'bootstrapper',
-    'routers/index',
-    'controllers/index'
+    'bootstrapper'
   ],
-  function (bootstrapper, Router, Controller) {
+  function (bootstrapper) {
     'use strict';
-    new Router({ controller: Controller });
+
     bootstrapper.run();
   });

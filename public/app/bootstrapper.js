@@ -5,13 +5,19 @@ define(
     'marionette',
     'collections/TodoList',
     'modules/header/Module',
-    'modules/main/Module'
+    'modules/main/Module',
+
+    // routers and controllers
+    'routers/index',
+    'controllers/index'
   ],
-  function (Marionette, TodoList, HeaderModule, MainModule) {
+  function (Marionette, TodoList, HeaderModule, MainModule, Router, Controller) {
     'use strict';
 
     return {
       run: function(){
+
+        new Router({ controller: Controller });
 
         app.addInitializer(function () {
           var headerModule = new HeaderModule();
