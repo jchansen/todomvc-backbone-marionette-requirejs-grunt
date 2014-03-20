@@ -39,7 +39,7 @@ input[type="checkbox"] {
 }
 
 .todoapp {
-  margin: 130px 0 40px 0;
+  margin: 40px 0 40px 0;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
 
@@ -53,6 +53,9 @@ input[type="checkbox"] {
   }
 
   h1 {
+    margin-bottom: 40px;
+    padding-top: 13px;
+
     font-size: 70px;
     font-weight: bold;
     text-align: center;
@@ -377,7 +380,7 @@ label[for='toggle-all'] {
 }
 
 #info {
-  margin: 65px auto 0;
+  margin: 33px auto 0;
   color: #a6a6a6;
   font-size: 12px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
