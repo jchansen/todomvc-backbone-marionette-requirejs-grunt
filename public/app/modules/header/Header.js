@@ -10,6 +10,7 @@ define(
 
     return Marionette.ItemView.extend({
       template: template,
+      className: "header",
 
       ui: {
         input: '#new-todo'
