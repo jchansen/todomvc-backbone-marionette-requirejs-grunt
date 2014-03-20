@@ -8,14 +8,50 @@
 </head>
 <body>
 <section class="todoapp">
-  <div class="notepad">
+  <div class="notepad" style="display: none">
     <div id="headerRegion" class="header"></div>
     <div id="listRegion"></div>
   </div>
-  <div id="filterRegion"></div>
+  <div id="filterRegion" style="display: none"></div>
+
+  <div class="test-filter">
+    <footer class="filter">
+      <span class="todo-count"><div></div></span>
+      <ul class="filters">
+        <li><a href="#/">All</a></li>
+        <li><a href="#/active">Active</a></li>
+        <li><a href="#/completed">Completed</a></li>
+      </ul>
+      <button class="clear-completed">
+        <div></div>
+      </button>
+    </footer>
+  </div>
+
+  <!--<div class="test-filter">-->
+    <!--<footer class="filter">-->
+    <!--<span class="todo-count"><div></div></span>-->
+      <!--<ul class="filters">-->
+        <!--<li><a href="#/">All</a></li>-->
+        <!--<li><a href="#/active">Active</a></li>-->
+        <!--<li><a href="#/completed">Completed</a></li>-->
+      <!--</ul>-->
+      <!--<button class="clear-completed">-->
+        <!--<div></div>-->
+      <!--</button>-->
+    <!--</footer>-->
+  <!--</div>-->
+
 </section>
 <footer id="info">
   <p>Double-click to edit a todo</p>
+  <footer class="filter2">
+    <ul class="filters">
+      <li><a href="#/">All</a></li>
+      <li><a href="#/active">Active</a></li>
+      <li><a href="#/completed">Completed</a></li>
+    </ul>
+  </footer>
   <p>Created by <a href="http://github.com/jsoverson">Jarrod Overson</a></p>
 </footer>
 
