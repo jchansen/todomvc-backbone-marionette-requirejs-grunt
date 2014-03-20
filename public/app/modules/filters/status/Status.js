@@ -3,11 +3,10 @@
 define(
   [
     'marionette',
-    'tpl!./footer.html',
-    './ActiveCount',
+    'tpl!./status.html',
     './CompletedCount'
   ],
-  function (Marionette, template, ActiveCount, CompletedCount) {
+  function (Marionette, template, CompletedCount) {
     'use strict';
 
     return Marionette.Layout.extend({
@@ -15,12 +14,12 @@ define(
       className: 'filter',
 
       regions: {
-        activeCount: '.todo-count',
         completedCount: '.clear-completed'
       },
 
       ui: {
-        filters: '.filters a'
+        filters: '.filters a',
+        activeCount: '.todo-count'
       },
 
       events: {
@@ -28,7 +27,7 @@ define(
       },
 
       onRender: function () {
-        this.activeCount.show(new ActiveCount({ collection: this.collection }));
+        this.updateActiveCount();
         this.completedCount.show(new CompletedCount({ collection: this.collection }));
       },
 
@@ -37,6 +36,16 @@ define(
           .removeClass('selected')
           .filter('[href="#/' + filter + '"]')
           .addClass('selected');
+      },
+
+      updateActiveCount: function(){
+        var itemsLeft = this.collection.getActive().length;
+        var itemsWord = itemsLeft < 1 || itemsLeft > 1 ? 'items' : 'item';
+        this.ui.activeCount.html('<strong>' + itemsLeft + '</strong> ' + itemsWord + ' left');
+      },
+
+      updateCompletedCount: function(){
+
       },
 
       onClearClick: function () {
