@@ -3,16 +3,15 @@
 define(
   [
     'modules/banner/Module',
-    'modules/header/Module',
-    'modules/main/list/Module',
-    'modules/main/filter/Module',
+    'modules/notepad/Module',
+    'modules/filter/Module',
     'modules/info/Module',
 
     // routers and controllers
     'routers/index',
     'controllers/index'
   ],
-  function (BannerModule, HeaderModule, ListModule, FilterModule, InfoModule, Router, Controller) {
+  function (BannerModule, NotepadModule, FilterModule, InfoModule, Router, Controller) {
     'use strict';
 
     return {
@@ -22,8 +21,7 @@ define(
 
         app.addInitializer(function () {
           (new BannerModule()).render(app.banner).done();
-          (new HeaderModule()).render(app.header).done();
-          (new ListModule()).render(app.list).done();
+          (new NotepadModule()).render(app.notepad).done();
           (new FilterModule()).render(app.filter).done();
           (new InfoModule()).render(app.info).done();
         });

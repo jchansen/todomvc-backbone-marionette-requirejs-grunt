@@ -13,8 +13,7 @@ define(
 
     app.addRegions({
       banner: '#bannerRegion',
-      header: '#headerRegion',
-      list: '#listRegion',
+      notepad: '#notepadRegion',
       filter: '#filterRegion',
       info: '#infoRegion'
     });
