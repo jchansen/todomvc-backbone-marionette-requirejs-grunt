@@ -4,14 +4,20 @@ define(
   [
     'marionette',
     'underscore',
-    'app'
+    'app',
+    'q',
+
+    'modules/banner/Module',
+    'modules/notepad/Module',
+    'modules/filters/Module',
+    'modules/info/Module'
   ],
-  function (Marionette, _, app) {
+  function (Marionette, _, app, Q, BannerModule, NotepadModule, FiltersModule, InfoModule) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
-        '*filter': 'setFilter'
+        '*filter': 'showContent'
       }
     });
 
@@ -22,6 +28,18 @@ define(
     _.extend(Controller.prototype, {
 
       initialize: function () {},
+
+      showContent: function (param) {
+        var self = this;
+        Q.all([
+            (new BannerModule()).render(app.banner),
+            (new NotepadModule()).render(app.notepad),
+            (new FiltersModule()).render(app.filters),
+            (new InfoModule()).render(app.info)
+          ]).done(function () {
+            self.setFilter(param);
+          });
+      },
 
       setFilter: function (param) {
         app.vent.trigger('todoList:filter', param && param.trim() || '');

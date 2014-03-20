@@ -3,9 +3,10 @@
 define(
   [
     'marionette',
-    'tpl!./status.html'
+    'tpl!./status.html',
+    'app'
   ],
-  function (Marionette, template) {
+  function (Marionette, template, app) {
     'use strict';
 
     return Marionette.ItemView.extend({
@@ -22,8 +23,13 @@ define(
       },
 
       initialize: function(options){
+        var self = this;
         this.listenTo(this.collection, 'all', this.updateActiveCount, this);
         this.listenTo(this.collection, 'all', this.updateCompletedCount, this);
+
+        app.vent.on('todoList:filter', function (filter) {
+          self.updateFilterSelection(filter);
+        });
       },
 
       onRender: function () {

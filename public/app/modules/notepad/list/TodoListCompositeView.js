@@ -27,12 +27,6 @@ define(
 
       initialize: function () {
         this.listenTo(this.collection, 'all', this.updateToggleCheckbox, this);
-
-        app.vent.on('todoList:filter', function (filter) {
-          if (footer) footer.updateFilterSelection(filter);
-
-          document.getElementsByClassName('todoapp')[0].className = 'filter-' + (filter === '' ? 'all' : filter);
-        });
       },
 
       onRender: function () {

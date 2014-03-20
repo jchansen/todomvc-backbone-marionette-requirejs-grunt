@@ -2,10 +2,10 @@
 
 define(
   [
-    'modules/banner/Module',
-    'modules/notepad/Module',
-    'modules/filters/Module',
-    'modules/info/Module',
+//    'modules/banner/Module',
+//    'modules/notepad/Module',
+//    'modules/filters/Module',
+//    'modules/info/Module',
 
     // routers and controllers
     'routers/index'
@@ -16,12 +16,12 @@ define(
     return {
       run: function(){
 
-        app.addInitializer(function () {
-          (new BannerModule()).render(app.banner).done();
-          (new NotepadModule()).render(app.notepad).done();
-          (new FiltersModule()).render(app.filters).done();
-          (new InfoModule()).render(app.info).done();
-        });
+//        app.addInitializer(function () {
+//          (new BannerModule()).render(app.banner).done();
+//          (new NotepadModule()).render(app.notepad).done();
+//          (new FiltersModule()).render(app.filters).done();
+//          (new InfoModule()).render(app.info).done();
+//        });
 
 //        app.listenTo(todoList, 'all', function () {
 //          app.main.$el.toggle(todoList.length > 0);
