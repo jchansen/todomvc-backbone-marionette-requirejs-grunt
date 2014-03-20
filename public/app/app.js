@@ -14,7 +14,7 @@ define(
     app.addRegions({
       banner: '#bannerRegion',
       notepad: '#notepadRegion',
-      filter: '#filterRegion',
+      filters: '#filtersRegion',
       info: '#infoRegion'
     });
 
