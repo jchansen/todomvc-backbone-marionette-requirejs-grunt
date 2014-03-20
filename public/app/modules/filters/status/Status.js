@@ -3,32 +3,33 @@
 define(
   [
     'marionette',
-    'tpl!./status.html',
-    './CompletedCount'
+    'tpl!./status.html'
   ],
-  function (Marionette, template, CompletedCount) {
+  function (Marionette, template) {
     'use strict';
 
     return Marionette.Layout.extend({
       template: template,
       className: 'filter',
 
-      regions: {
-        completedCount: '.clear-completed'
-      },
-
       ui: {
         filters: '.filters a',
-        activeCount: '.todo-count'
+        activeCount: '.todo-count',
+        completedCount: '.clear-completed'
       },
 
       events: {
         'click #clear-completed': 'onClearClick'
       },
 
+      initialize: function(options){
+        this.listenTo(this.collection, 'all', this.updateActiveCount, this);
+        this.listenTo(this.collection, 'all', this.updateCompletedCount, this);
+      },
+
       onRender: function () {
         this.updateActiveCount();
-        this.completedCount.show(new CompletedCount({ collection: this.collection }));
+        this.updateCompletedCount();
       },
 
       updateFilterSelection: function (filter) {
@@ -45,7 +46,10 @@ define(
       },
 
       updateCompletedCount: function(){
-
+        var completedTodos = this.collection.getCompleted();
+        this.ui.completedCount
+          .toggle(completedTodos.length > 0)
+          .html('Clear completed (' + completedTodos.length + ')');
       },
 
       onClearClick: function () {
