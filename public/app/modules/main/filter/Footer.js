@@ -12,8 +12,7 @@ define(
 
     return Marionette.Layout.extend({
       template: template,
-      tagName: 'footer',
-      className: 'footer',
+      className: 'filter',
 
       regions: {
         activeCount: '.todo-count',
