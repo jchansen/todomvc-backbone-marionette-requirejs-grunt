@@ -6,12 +6,13 @@ define(
     'modules/header/Module',
     'modules/main/list/Module',
     'modules/main/filter/Module',
+    'modules/info/Module',
 
     // routers and controllers
     'routers/index',
     'controllers/index'
   ],
-  function (BannerModule, HeaderModule, ListModule, FilterModule, Router, Controller) {
+  function (BannerModule, HeaderModule, ListModule, FilterModule, InfoModule, Router, Controller) {
     'use strict';
 
     return {
@@ -24,6 +25,7 @@ define(
           (new HeaderModule()).render(app.header).done();
           (new ListModule()).render(app.list).done();
           (new FilterModule()).render(app.filter).done();
+          (new InfoModule()).render(app.info).done();
         });
 
 //        app.listenTo(todoList, 'all', function () {

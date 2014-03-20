@@ -15,7 +15,8 @@ define(
       banner: '#bannerRegion',
       header: '#headerRegion',
       list: '#listRegion',
-      filter: '#filterRegion'
+      filter: '#filterRegion',
+      info: '#infoRegion'
     });
 
     app.on("initialize:before", function () {
