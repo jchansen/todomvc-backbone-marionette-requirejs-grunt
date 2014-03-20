@@ -8,16 +8,13 @@ define(
     'modules/info/Module',
 
     // routers and controllers
-    'routers/index',
-    'controllers/index'
+    'routers/index'
   ],
-  function (BannerModule, NotepadModule, FiltersModule, InfoModule, Router, Controller) {
+  function (BannerModule, NotepadModule, FiltersModule, InfoModule) {
     'use strict';
 
     return {
       run: function(){
-
-        new Router({ controller: Controller });
 
         app.addInitializer(function () {
           (new BannerModule()).render(app.banner).done();
