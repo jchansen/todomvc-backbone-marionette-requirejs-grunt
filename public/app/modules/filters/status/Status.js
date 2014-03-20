@@ -10,7 +10,6 @@ define(
 
     return Marionette.ItemView.extend({
       template: template,
-      className: 'filter',
 
       ui: {
         filters: '.filters a',
