@@ -8,7 +8,7 @@ define(
   function (Marionette, template) {
     'use strict';
 
-    return Marionette.Layout.extend({
+    return Marionette.ItemView.extend({
       template: template,
       className: 'filter',
 

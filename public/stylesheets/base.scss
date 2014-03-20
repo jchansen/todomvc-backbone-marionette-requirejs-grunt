@@ -308,7 +308,6 @@ label[for='toggle-all'] {
   padding: 0 15px;
   position: relative;
   height: 40px;
-  z-index: 1;
   text-align: center;
   line-height: 40px;
   margin-bottom: -11px; // -12px would equal the -6px removed from the box shadow
@@ -327,6 +326,7 @@ label[for='toggle-all'] {
 
   &:nth-of-type(1) {
     margin-top: -4px;
+    z-index: 1; // place first filter above the notepad shadow
   }
 }
 
@@ -338,13 +338,34 @@ label[for='toggle-all'] {
   padding-left: 15px;
 }
 
+// Paging Filter
+.filter-content-left {
+  @extend .todo-count;
+}
+
+.filter-content-right {
+  float: right;
+  text-align: right;
+  position: absolute;
+  right: 0px;
+  padding-right: 15px;
+
+  text-decoration: none;
+  color: #83756f;
+}
+
+a.page-link {
+  text-decoration: none;
+  color: #83756f;
+}
+
 .filters {
   margin: 0;
   padding: 0;
   list-style: none;
   position: absolute;
-  right: 0;
-  left: 0;
+  right: 100px;
+  left: 100px;
 
   li {
     display: inline;

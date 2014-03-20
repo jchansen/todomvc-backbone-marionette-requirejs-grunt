@@ -10,6 +10,22 @@ define(
 
     return Marionette.ItemView.extend({
       template: template,
-      className: 'filter'
+      className: 'filter',
+
+      ui: {
+        pages: '.filters a'
+      },
+
+      onRender: function () {
+        this.updatePage();
+      },
+
+      updatePage: function(){
+        this.ui.pages
+          .removeClass('selected')
+          .filter('[href="#"]')
+          .first()
+          .addClass('selected');
+      }
     });
   });
