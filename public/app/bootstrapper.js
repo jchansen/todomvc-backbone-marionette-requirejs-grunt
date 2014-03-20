@@ -2,6 +2,7 @@
 
 define(
   [
+    'modules/banner/Module',
     'modules/header/Module',
     'modules/main/list/Module',
     'modules/main/filter/Module',
@@ -10,7 +11,7 @@ define(
     'routers/index',
     'controllers/index'
   ],
-  function (HeaderModule, ListModule, FilterModule, Router, Controller) {
+  function (BannerModule, HeaderModule, ListModule, FilterModule, Router, Controller) {
     'use strict';
 
     return {
@@ -19,6 +20,7 @@ define(
         new Router({ controller: Controller });
 
         app.addInitializer(function () {
+          (new BannerModule()).render(app.banner).done();
           (new HeaderModule()).render(app.header).done();
           (new ListModule()).render(app.list).done();
           (new FilterModule()).render(app.filter).done();

@@ -12,6 +12,7 @@ define(
     window.app = app;
 
     app.addRegions({
+      banner: '#bannerRegion',
       header: '#headerRegion',
       list: '#listRegion',
       filter: '#filterRegion'
