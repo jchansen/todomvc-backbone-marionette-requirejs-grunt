@@ -1,7 +1,7 @@
 define(
   [
     'conductor',
-    './Footer',
+    './Status',
     'app',
     'q'
   ],
