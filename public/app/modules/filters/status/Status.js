@@ -19,7 +19,8 @@ define(
       },
 
       events: {
-        'click #clear-completed': 'onClearClick'
+        'click #clear-completed': 'onClearClick',
+        'click li a': 'onFilter'
       },
 
       initialize: function(options){
@@ -32,6 +33,25 @@ define(
         });
       },
 
+      onFilter: function(e){
+        e.preventDefault();
+
+        var href = $(e.target).attr('href'),
+            filter = null;
+
+        if (href === "#") {
+          filter = '';
+        } else if (href === "#active") {
+          filter = 'active';
+        } else if (href === "#completed") {
+          filter = 'completed';
+        } else {
+          throw "unknown filter: " + href;
+        }
+
+        app.vent.trigger('todoList:filter', filter);
+      },
+
       onRender: function () {
         this.updateActiveCount();
         this.updateCompletedCount();
@@ -40,7 +60,7 @@ define(
       updateFilterSelection: function (filter) {
         this.ui.filters
           .removeClass('selected')
-          .filter('[href="#/' + filter + '"]')
+          .filter('[href="#' + filter + '"]')
           .addClass('selected');
       },
 

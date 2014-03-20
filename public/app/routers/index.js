@@ -27,7 +27,12 @@ define(
 
     _.extend(Controller.prototype, {
 
-      initialize: function () {},
+      initialize: function () {
+        var that = this;
+        app.vent.on('todoList:filter', function(filter){
+          that.router.navigate("#" + filter);
+        });
+      },
 
       showContent: function (param) {
         var self = this;
