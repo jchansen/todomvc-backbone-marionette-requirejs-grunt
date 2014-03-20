@@ -8,51 +8,49 @@
 </head>
 <body>
 <section class="todoapp">
-  <div class="notepad" style="display: none">
+  <div class="notepad" style="display: block">
     <div id="headerRegion" class="header"></div>
     <div id="listRegion"></div>
   </div>
   <div id="filterRegion" style="display: none"></div>
 
-  <div class="test-filter">
-    <footer class="filter">
-      <span class="todo-count"><div></div></span>
-      <ul class="filters">
-        <li><a href="#/">All</a></li>
-        <li><a href="#/active">Active</a></li>
-        <li><a href="#/completed">Completed</a></li>
-      </ul>
-      <button class="clear-completed">
-        <div></div>
-      </button>
-    </footer>
-  </div>
-
-  <!--<div class="test-filter">-->
-    <!--<footer class="filter">-->
-    <!--<span class="todo-count"><div></div></span>-->
-      <!--<ul class="filters">-->
-        <!--<li><a href="#/">All</a></li>-->
-        <!--<li><a href="#/active">Active</a></li>-->
-        <!--<li><a href="#/completed">Completed</a></li>-->
-      <!--</ul>-->
-      <!--<button class="clear-completed">-->
-        <!--<div></div>-->
-      <!--</button>-->
-    <!--</footer>-->
-  <!--</div>-->
-
-</section>
-<footer id="info">
-  <p>Double-click to edit a todo</p>
-  <footer class="filter2">
+  <footer class="filter">
+    <span class="todo-count"><div></div></span>
     <ul class="filters">
       <li><a href="#/">All</a></li>
       <li><a href="#/active">Active</a></li>
       <li><a href="#/completed">Completed</a></li>
     </ul>
+    <button class="clear-completed">
+      <div></div>
+    </button>
   </footer>
-  <p>Created by <a href="http://github.com/jsoverson">Jarrod Overson</a></p>
+
+  <footer class="filter">
+    <span class="todo-count"><strong>2</strong> items left</span>
+    <ul class="filters">
+      <li><a href="#/">All</a></li>
+      <li><a href="#/active">Active</a></li>
+      <li><a href="#/completed">Completed</a></li>
+    </ul>
+    <button class="clear-completed" style="display: none;">Clear completed (0)</button>
+  </footer>
+
+  <footer class="filter">
+    <span class="todo-count"><strong>2</strong> items left</span>
+    <ul class="filters">
+      <li><a href="#/">All</a></li>
+      <li><a href="#/active">Active</a></li>
+      <li><a href="#/completed">Completed</a></li>
+    </ul>
+    <button class="clear-completed" style="display: none;">Clear completed (0)</button>
+  </footer>
+
+</section>
+
+<footer id="info">
+  <p>Double-click to edit a todo</p>
+  <p>Created by <a href="http://github.com/jchansen">Jason Hansen</a></p>
 </footer>
 
 <script data-main="app/main" src="bower_components/requirejs/require.js"></script>

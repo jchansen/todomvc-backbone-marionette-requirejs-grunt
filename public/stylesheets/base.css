@@ -37,7 +37,6 @@ input[type="checkbox"] {
 
 .todoapp {
   margin: 130px 0 40px 0;
-  position: relative;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px; }
   .todoapp input::-webkit-input-placeholder {
@@ -65,7 +64,8 @@ input[type="checkbox"] {
   background: #fff;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid #ccc;
-  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15); }
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15);
+  position: relative; }
   .notepad:before {
     content: '';
     border-left: 1px solid #f5d6d6;
@@ -260,22 +260,23 @@ label[for='toggle-all'] {
 .filter {
   color: #777;
   padding: 0 15px;
-  position: absolute;
-  right: 0;
-  bottom: -31px;
-  left: 0;
-  height: 20px;
+  position: relative;
+  height: 40px;
   z-index: 1;
-  text-align: center; }
+  text-align: center;
+  line-height: 40px;
+  margin-bottom: -11px; }
   .filter:before {
     content: '';
     position: absolute;
     right: 0;
-    bottom: 31px;
+    bottom: 40px;
     left: 0;
-    height: 50px;
+    height: 40px;
     z-index: -1;
-    box-shadow: 0 43px 0 -6px rgba(255, 255, 255, 0.8), 0 44px 2px -6px rgba(0, 0, 0, 0.2); }
+    box-shadow: 0 40px 0 -6px rgba(255, 255, 255, 0.8), 0 41px 2px -6px rgba(0, 0, 0, 0.2); }
+  .filter:nth-of-type(1) {
+    margin-top: -4px; }
 
 .filter2 {
   height: 44px;
@@ -293,7 +294,10 @@ label[for='toggle-all'] {
 
 .todo-count {
   float: left;
-  text-align: left; }
+  text-align: left;
+  position: absolute;
+  left: 0px;
+  padding-left: 15px; }
 
 .filters {
   margin: 0;
@@ -320,7 +324,8 @@ label[for='toggle-all'] {
   font-size: 11px;
   padding: 0 10px;
   border-radius: 3px;
-  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2); }
+  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  top: 10px; }
   .clear-completed:hover {
     background: rgba(0, 0, 0, 0.15);
     box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.3); }
