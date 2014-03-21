@@ -4,7 +4,8 @@ define(
   [
     'marionette',
     'tpl!./todoListCompositeView.html',
-    './TodoItemView'
+    './TodoItemView',
+    'app'
   ],
   function (Marionette, template, ItemView) {
     'use strict';
@@ -26,8 +27,21 @@ define(
       },
 
       initialize: function () {
+        var self = this;
         this.listenTo(this.collection, 'all', this.updateToggleCheckbox, this);
         this.listenTo(this.collection, 'all', this.updateVisibility, this);
+
+        app.vent.on('todoList:filter', function (filter) {
+          var completed = filter === "active" ? false : true;
+          app.Repositories.Todos().filterCollectionProvided({
+              collection: self.collection,
+              filter: function(model){
+                var status = model.get('completed');
+                if(filter === "") return true;
+                return status === completed;
+              }
+            }).done();
+        });
       },
 
       onRender: function () {
