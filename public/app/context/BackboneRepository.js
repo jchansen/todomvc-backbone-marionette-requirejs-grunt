@@ -131,6 +131,7 @@ define(
         var promise = model.save();
         promise.done(function(resp, b, c){
           that.triggerMethod("update", model);
+          that.triggerMethod("cache:updated", that);
           callback(model);
         });
         promise.fail(function () {
@@ -209,14 +210,21 @@ define(
         promise.done(function (collection) {
           var result = collection.filter(filter);
           _collection.set(result);
-          //_collection.queryId = _.uniqueId('query');
+          _collection.queryId = _collection.queryId || _.uniqueId('query');
 
           // map the auto-generated id of this collection to the query that generated it
           // this will let us update the collection later
-          //that._queryMap[_collection.queryId] = query;
-          //_collection.listenTo(that, "cache:updated", that.updateCollection, _collection);
+          that._queryMap[_collection.queryId] = filter;
+          _collection.listenTo(that, "cache:updated", that._updateFilteredCollection, _collection);
           callback(_collection);
         });
+      },
+
+      _updateFilteredCollection: function(repository){
+        var collection = repository._collection;
+        var filter = repository._queryMap[this.queryId];
+        var result = collection.filter(filter);
+        this.set(result);
       },
 
       updateCollection: function(repository){

@@ -33,7 +33,6 @@ define(
 
       initialize: function () {
         this.value = this.model.get('title');
-
         this.listenTo(this.model, 'change', this.render, this);
       },
 
@@ -48,7 +47,8 @@ define(
       },
 
       toggle: function () {
-        this.model.toggle().save();
+        this.model.toggle();
+        app.commands.execute('todo:update', this.model);
       },
 
       toggleEditingMode: function () {
@@ -57,7 +57,6 @@ define(
 
       onEditDblclick: function () {
         this.toggleEditingMode();
-
         this.ui.edit.focus().val(this.value);
       },
 
@@ -75,9 +74,10 @@ define(
         this.value = event.target.value.trim();
 
         if (this.value) {
-          this.model.set('title', this.value).save();
+          this.model.set('title', this.value);
+          app.commands.execute('todo:update', this.model);
         } else {
-          this.destroy();
+          app.commands.execute('todo:delete', this.model);
         }
 
         this.toggleEditingMode();
