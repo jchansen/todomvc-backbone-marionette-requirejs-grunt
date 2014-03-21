@@ -65,7 +65,8 @@ define(
         var isChecked = event.currentTarget.checked;
 
         this.collection.each(function (todo) {
-          todo.save({ completed: isChecked });
+          todo.set({ completed: isChecked });
+          app.commands.execute("todo:update", todo);
         });
       }
     });
