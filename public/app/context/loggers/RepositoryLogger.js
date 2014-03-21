@@ -12,14 +12,6 @@ define(
       _singular: null,
 
       initialize: function(options){
-        _.bindAll(this,
-          'onFetchCollection',
-          'onFetchCollectionError',
-          'onAdd',
-          'onAddError',
-          'onRemove'
-        );
-
         this._plural = options.plural;
         this._singular = options.singular;
         this._repository = options.repository;
@@ -29,11 +21,12 @@ define(
         var repo = this._repository;
 
         // bind to the events we want to listen to
-        repo.on("fetch", this.onFetch);
-        repo.on("fetch:error", this.onFetchError);
-        repo.on("add", this.onAdd);
-        repo.on("add:error", this.onAddError);
-        repo.on("remove", this.onRemove);
+        this.listenTo(repo, "fetch", this.onFetchCollection, this);
+        this.listenTo(repo, "fetch:error", this.onFetchCollectionError, this);
+        this.listenTo(repo, "add", this.onAdd, this);
+        this.listenTo(repo, "add:error", this.onAddError, this);
+        this.listenTo(repo, "update", this.onUpdate, this);
+        this.listenTo(repo, "remove", this.onRemove, this);
       },
 
       description: function(model){
@@ -66,6 +59,10 @@ define(
 
       onAddError: function () {
         logger.error("error saving " + this._singular);
+      },
+
+      onUpdate: function (model) {
+        logger.success(this._singular + " updated (" + this.description(model) + ")");
       },
 
       onRemove: function () {
