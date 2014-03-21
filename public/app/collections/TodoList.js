@@ -15,6 +15,7 @@ define(
     return Backbone.Collection.extend({
       model: Todo,
       url: "http://todomvc-api.herokuapp.com/api/todos",
+      //url: "http://localhost:3001/api/todos",
 
       getCompleted: function () {
         return this.filter(isCompleted);
