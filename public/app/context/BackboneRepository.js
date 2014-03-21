@@ -191,6 +191,34 @@ define(
         });
       },
 
+      filterCollectionProvided: function (options, collection) {
+        var that = this;
+        var deferred = $.Deferred();
+        this._filterCollectionProvided(options, function (result) {
+          deferred.resolve(result);
+        });
+        return deferred.promise();
+      },
+
+      _filterCollectionProvided: function (options, callback) {
+        var filter = options.filter;
+        var _collection = options.collection;
+
+        var that = this;
+        var promise = this.getAll();
+        promise.done(function (collection) {
+          var result = collection.filter(filter);
+          _collection.set(result);
+          //_collection.queryId = _.uniqueId('query');
+
+          // map the auto-generated id of this collection to the query that generated it
+          // this will let us update the collection later
+          //that._queryMap[_collection.queryId] = query;
+          //_collection.listenTo(that, "cache:updated", that.updateCollection, _collection);
+          callback(_collection);
+        });
+      },
+
       updateCollection: function(repository){
         var collection = repository._collection;
         var query = repository._queryMap[this.queryId];
