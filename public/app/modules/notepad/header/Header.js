@@ -3,9 +3,11 @@
 define(
   [
     'marionette',
-    'tpl!./header.html'
+    'tpl!./header.html',
+    'app',
+    'models/Todo'
   ],
-  function (Marionette, template) {
+  function (Marionette, template, app, Todo) {
     'use strict';
 
     return Marionette.ItemView.extend({
@@ -23,12 +25,13 @@ define(
       onInputKeypress: function (event) {
         var ENTER_KEY = 13;
         var todoText = this.ui.input.val().trim();
+        var todo = null;
 
         if (event.which === ENTER_KEY && todoText) {
-          this.collection.create({
+          todo = new Todo({
             title: todoText
           });
-
+          app.commands.execute("todo:create", todo);
           this.ui.input.val('');
         }
       }
