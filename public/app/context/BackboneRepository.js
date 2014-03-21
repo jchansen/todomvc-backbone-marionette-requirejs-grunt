@@ -1,25 +1,21 @@
 define(
   [
     'backbone',
-    'marionette'
+    'marionette',
+    'collections/FilteredCollection'
   ],
-  function (Backbone, Marionette) {
+  function (Backbone, Marionette, FilteredCollection) {
 
     var Repository = Marionette.Controller.extend({
 
       _collection: null,
       _collectionType: null,
       _promise: null,
-      _queryMap: {},
 
       initialize: function (options) {
         var that = this;
         this._collection = new this._collectionType();
         this._fetchCollection();
-        //setInterval(function () {
-        //    that._fetchCollection();
-        //}, 5000);
-
       },
 
       // GET
@@ -28,7 +24,6 @@ define(
         var promise = this._collection.fetch();
         promise.done(function (collection, response, options) {
           that.triggerMethod("fetch:collection", that._collection);
-          that.triggerMethod("cache:updated", that);
         });
         promise.fail(function () {
           that.triggerMethod("fetch:collection:error");
@@ -44,7 +39,8 @@ define(
         if (options.forceFetch) this._fetchCollection();
 
         this._promise.done(function () {
-          deferred.resolve(that._collection);
+          var filteredCollection = new FilteredCollection(null, {cache: that._collection});
+          deferred.resolve(filteredCollection);
         });
 
         return deferred.promise();
@@ -77,41 +73,12 @@ define(
         });
       },
 
-      getCollectionById: function (id, fieldName) {
-        var deferred = $.Deferred();
-
-        var promise = this.getById(id);
-        promise.done(function (entity) {
-          if (this._fieldsMap === null)
-            throw "No fields in _fieldMap. Must define valid fields before calling getCollectionById";
-
-          // TODO: there is an assumption here that the field is an array
-          //       but still need to check for it.
-          var arrayField = entity.get(fieldName);
-          if (arrayField === undefined)
-            throw "Entity does not have field " + fieldName;
-
-          var map = this._fieldsMap[fieldName];
-          if (map === undefined)
-            throw "No map defined for field " + fieldName;
-
-          if (map[id] === undefined) {
-            map[id] = new Backbone.Collection(arrayField);
-          }
-
-          deferred.resolve(map[id]);
-        });
-
-        return deferred.promise();
-      },
-
       add: function (model) {
         var that = this;
         var promise = model.save();
         promise.done(function (resp, b, c) {
           that._collection.add(model);
           that.triggerMethod("add", model);
-          that.triggerMethod("cache:updated", that);
         });
         promise.fail(function () {
           that.triggerMethod("addError");
@@ -131,107 +98,11 @@ define(
         var promise = model.save();
         promise.done(function(resp, b, c){
           that.triggerMethod("update", model);
-          that.triggerMethod("cache:updated", that);
           callback(model);
         });
         promise.fail(function () {
           that.triggerMethod("update:error");
         });
-      },
-
-      where: function(options){
-        var that = this;
-        var deferred = $.Deferred();
-        this._where(options, function(result){
-          deferred.resolve(result);
-        });
-        return deferred.promise();
-      },
-
-      _where: function(query, callback){
-        var that = this;
-        var promise = this.getAll();
-        promise.done(function(collection){
-          var result = collection.where(query);
-          var response = new that._collectionType(result);
-          response.queryId = _.uniqueId('query');
-
-          // map the auto-generated id of this collection to the query that generated it
-          // this will let us update the collection later
-          that._queryMap[response.queryId] = query;
-          response.listenTo(that, "cache:updated", that.updateCollection, response);
-          callback(response);
-        });
-      },
-
-      whereCollectionProvided: function (options, collection) {
-        var that = this;
-        var deferred = $.Deferred();
-        this._whereCollectionProvided(options, function (result) {
-          deferred.resolve(result);
-        });
-        return deferred.promise();
-      },
-
-      _whereCollectionProvided: function (options, callback) {
-        var query = options.query;
-        var _collection = options.collection;
-
-        var that = this;
-        var promise = this.getAll();
-        promise.done(function (collection) {
-          var result = collection.where(query);
-          _collection.set(result);
-          _collection.queryId = _.uniqueId('query');
-
-          // map the auto-generated id of this collection to the query that generated it
-          // this will let us update the collection later
-          that._queryMap[_collection.queryId] = query;
-          _collection.listenTo(that, "cache:updated", that.updateCollection, _collection);
-          callback(_collection);
-        });
-      },
-
-      filterCollectionProvided: function (options, collection) {
-        var that = this;
-        var deferred = $.Deferred();
-        this._filterCollectionProvided(options, function (result) {
-          deferred.resolve(result);
-        });
-        return deferred.promise();
-      },
-
-      _filterCollectionProvided: function (options, callback) {
-        var filter = options.filter;
-        var _collection = options.collection;
-
-        var that = this;
-        var promise = this.getAll();
-        promise.done(function (collection) {
-          var result = collection.filter(filter);
-          _collection.set(result);
-          _collection.queryId = _collection.queryId || _.uniqueId('query');
-
-          // map the auto-generated id of this collection to the query that generated it
-          // this will let us update the collection later
-          that._queryMap[_collection.queryId] = filter;
-          _collection.listenTo(that, "cache:updated", that._updateFilteredCollection, _collection);
-          callback(_collection);
-        });
-      },
-
-      _updateFilteredCollection: function(repository){
-        var collection = repository._collection;
-        var filter = repository._queryMap[this.queryId];
-        var result = collection.filter(filter);
-        this.set(result);
-      },
-
-      updateCollection: function(repository){
-        var collection = repository._collection;
-        var query = repository._queryMap[this.queryId];
-        var result = collection.where(query);
-        this.set(result);
       },
 
       remove: function (model) {
@@ -248,7 +119,6 @@ define(
         var that = this;
         var promise = model.destroy();
         promise.done(function (resp, b, c) {
-          that.triggerMethod("cache:updated", that);
           callback(model);
         });
         promise.fail(function () {

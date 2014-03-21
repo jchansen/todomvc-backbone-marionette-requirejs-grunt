@@ -14,7 +14,7 @@ define(
         collection: function(){
           var defer = Q.defer();
           app.Repositories.Todos().getAll().done(function(todos){
-            defer.resolve(todos.clone());
+            defer.resolve(todos);
           });
           return defer.promise;
         }
