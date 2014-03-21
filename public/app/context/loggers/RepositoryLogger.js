@@ -23,6 +23,9 @@ define(
         this._plural = options.plural;
         this._singular = options.singular;
         this._repository = options.repository;
+        if(typeof(options.description) === "function"){
+          this.description = options.description;
+        }
         var repo = this._repository;
 
         // bind to the events we want to listen to
@@ -31,6 +34,10 @@ define(
         repo.on("add", this.onAdd);
         repo.on("add:error", this.onAddError);
         repo.on("remove", this.onRemove);
+      },
+
+      description: function(model){
+        return "";
       },
 
       // collection logs
@@ -45,8 +52,7 @@ define(
 
       // model logs
       onFetchModel: function (model) {
-        var name = model.get('name');
-        logger.success(name + " " + this._singular + " fetched!");
+        logger.success(this.description(model) + " " + this._singular + " fetched!");
       },
 
       onFetchModelError: function () {
@@ -55,8 +61,7 @@ define(
 
       // add logs
       onAdd: function (model) {
-        var name = model.get('name');
-        logger.success(name + " " + this._singular + " saved and added!");
+        logger.success(this.description(model) + " " + this._singular + " saved and added!");
       },
 
       onAddError: function () {

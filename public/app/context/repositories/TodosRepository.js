@@ -15,7 +15,10 @@ define(
         this._logger = new RepositoryLogger({
           plural: "todos",
           singular: "todo",
-          repository: this
+          repository: this,
+          description: function(model){
+            return model.get('title');
+          }
         });
       }
 
