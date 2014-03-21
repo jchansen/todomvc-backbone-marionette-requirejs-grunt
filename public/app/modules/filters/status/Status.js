@@ -27,6 +27,7 @@ define(
         var self = this;
         this.listenTo(this.collection, 'all', this.updateActiveCount, this);
         this.listenTo(this.collection, 'all', this.updateCompletedCount, this);
+        this.listenTo(this.collection, 'all', this.updateVisibility, this);
 
         app.vent.on('todoList:filter', function (filter) {
           self.updateFilterSelection(filter);
@@ -55,6 +56,11 @@ define(
       onRender: function () {
         this.updateActiveCount();
         this.updateCompletedCount();
+        this.updateVisibility();
+      },
+
+      updateVisibility: function(){
+        this.$el.toggle(this.collection.length > 0);
       },
 
       updateFilterSelection: function (filter) {

@@ -27,10 +27,16 @@ define(
 
       initialize: function () {
         this.listenTo(this.collection, 'all', this.updateToggleCheckbox, this);
+        this.listenTo(this.collection, 'all', this.updateVisibility, this);
       },
 
       onRender: function () {
         this.updateToggleCheckbox();
+        this.updateVisibility();
+      },
+
+      updateVisibility: function(){
+        this.$el.toggle(this.collection.length > 0);
       },
 
       updateToggleCheckbox: function () {

@@ -15,8 +15,17 @@ define(
         pages: '.filters a'
       },
 
+      initialize: function(options){
+        this.listenTo(this.collection, 'all', this.updateVisibility, this);
+      },
+
       onRender: function () {
         this.updatePage();
+        this.updateVisibility();
+      },
+
+      updateVisibility: function(){
+        this.$el.toggle(this.collection.length > 0);
       },
 
       updatePage: function(){
