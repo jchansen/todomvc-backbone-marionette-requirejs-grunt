@@ -3,9 +3,10 @@
 define(
   [
     'marionette',
-    'tpl!./todoItemView.html'
+    'tpl!./todoItemView.html',
+    'app'
   ],
-  function (Marionette, template) {
+  function (Marionette, template, app) {
     'use strict';
 
     var ENTER_KEY = 13;
@@ -43,7 +44,7 @@ define(
       },
 
       destroy: function () {
-        this.model.destroy();
+        app.commands.execute('todo:delete', this.model);
       },
 
       toggle: function () {
