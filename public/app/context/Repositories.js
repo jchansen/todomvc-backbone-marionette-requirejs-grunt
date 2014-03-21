@@ -10,7 +10,7 @@ define(
       _todos: null,
       Todos: function () {
         if (this._todos === null) {
-          this._todos = TodosRepository;
+          this._todos = new TodosRepository();
         }
         return this._todos;
       }

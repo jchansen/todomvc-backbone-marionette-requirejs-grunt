@@ -1,53 +1,25 @@
 define(
   [
-    'q',
+    'context/BackboneRepository',
     'collections/TodoList',
-    'models/Todo'
+    'context/loggers/RepositoryLogger'
   ],
-  function (Q, Todos, Todo) {
+  function (BackboneRepository, TodoList, RepositoryLogger) {
 
-    var todos = new Todos();
-    var defer = Q.defer();
-    var promise = defer.promise;
+    var Repository = BackboneRepository.extend({
+      _collectionType: TodoList,
+      _logger: null,
 
-    var _fetchCollection = function () {
-      var that = this;
-      todos.fetch()
-        .done(function (collection, response, options) {
-          defer.resolve(todos);
+      initialize: function (options) {
+        BackboneRepository.prototype.initialize.apply(this, arguments);
+        this._logger = new RepositoryLogger({
+          plural: "todos",
+          singular: "todo",
+          repository: this
         });
-    };
-    _fetchCollection();
-
-    return {
-//      getAll: function (options) {
-//        var defer = Q.defer();
-//        if (todos) defer.resolve(todos);
-//        todos = new Todos();
-//        todos.fetch({
-//          success: function (model, res, options) {
-//            defer.resolve(todos);
-//          },
-//          data: options
-//        });
-//        return defer.promise;
-//      },
-
-      getAll: function (options) {
-        return promise;
-      },
-
-      getById: function (id) {
-        var defer = Q.defer();
-        var todo = new Todo({id: Number(id)});
-        todo.fetch({
-          success: function (model, res, options) {
-            defer.resolve(todo);
-          }
-        });
-        return defer.promise;
       }
 
-    }
+    });
 
+    return Repository;
   });

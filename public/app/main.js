@@ -9,7 +9,8 @@ require.config({
     localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
     q: '../bower_components/q/q',
     tpl: 'lib/tpl',
-    text: 'lib/text'
+    text: 'lib/text',
+    toastr: '../javascripts/toastr'
   },
 
   shim: {
