@@ -13,11 +13,15 @@ define(
 
       ui: {
         //pages: '.filters a',
-        pages: 'ul.filters'
+        pages: 'ul.filters',
+        previousPage: '.filter-content-left',
+        nextPage: '.filter-content-right'
       },
 
       events: {
-        'click .filters a': 'onPageSelected'
+        'click .filters a': 'onPageSelected',
+        'click .filter-content-left a': 'onPreviousPage',
+        'click .filter-content-right a': 'onNextPage'
       },
 
       initialize: function(options){
@@ -38,6 +42,18 @@ define(
         app.vent.on("todoList:page", function(pageNumber){
           self.collection.page({currentPage: pageNumber});
         });
+      },
+
+      onPreviousPage: function(e){
+        e.preventDefault();
+        var pagingInfo = this.collection.pagingInfo();
+        app.vent.trigger("todoList:page", pagingInfo.currentPage - 1);
+      },
+
+      onNextPage: function(e){
+        e.preventDefault();
+        var pagingInfo = this.collection.pagingInfo();
+        app.vent.trigger("todoList:page", pagingInfo.currentPage + 1);
       },
 
       onPageSelected: function(e,a,b,c){
@@ -68,6 +84,11 @@ define(
           .removeClass('selected')
           .filter('[href="' + '#page' + currentPage + '"]')
           .addClass('selected');
+
+        // update previous page button
+        this.ui.previousPage.toggle(currentPage > 1);
+        // update next page button
+        this.ui.nextPage.toggle(currentPage < totalPages);
       }
     });
   });
