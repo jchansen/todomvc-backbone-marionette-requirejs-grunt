@@ -33,19 +33,15 @@ define(
 
         app.vent.on('todoList:filter', function (filter) {
           var completed = filter === "active" ? false : true;
-//          app.Repositories.Todos().filterCollectionProvided({
-//              collection: self.collection,
-//              filter: function(model){
-//                var status = model.get('completed');
-//                if(filter === "") return true;
-//                return status === completed;
-//              }
-//            }).done();
           self.collection.filterBy(function(model){
             var status = model.get('completed');
             if(filter === "") return true;
             return status === completed;
           });
+        });
+
+        app.vent.on("todoList:page", function(pageNumber){
+          self.collection.page({currentPage: pageNumber});
         });
       },
 

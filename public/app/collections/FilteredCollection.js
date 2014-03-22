@@ -11,6 +11,13 @@ define(
     var _filter = function(model){
       return true;
     };
+    var _filteredModels = null;
+    var _defaultPagingInfo = {
+      resultsPerPage: 4,//Number.MAX_VALUE,
+      currentPage: 1,
+      totalPages: 1
+    };
+    var _pagingInfo = null;
 
     return Backbone.Collection.extend({
       initialize: function(models, options){
@@ -26,8 +33,38 @@ define(
 
       filterBy: function(filter, options){
         _filter = filter || _filter;
-        var models = _cache.filter(_filter);
-        this.reset(models, options);
+        _filteredModels = _cache.filter(_filter);
+        this.reset(_filteredModels, options);
+        this._calculateAndSetPagingInfo();
+        this.page();
+        return this;
+      },
+
+      _calculateAndSetPagingInfo: function(){
+        var totalItems = _filteredModels.length;
+        var totalPages = Math.ceil(totalItems / _defaultPagingInfo.resultsPerPage);
+        _pagingInfo = _.defaults({
+          totalItems: totalItems,
+          totalPages: totalPages
+        }, _defaultPagingInfo);
+      },
+
+      page: function(options){
+        var defaults = _.clone(_pagingInfo);
+        var pagingInfo = _.clone(options || {});
+        _pagingInfo = _.defaults(pagingInfo, defaults);
+
+        var skip = (pagingInfo.currentPage - 1)*pagingInfo.resultsPerPage;
+        var take = pagingInfo.resultsPerPage;
+        var result = _.chain(_filteredModels)
+                      .rest(skip)
+                      .first(take || _filteredModels.length - skip)
+                      .value();
+        this.reset(result);
+      },
+
+      pagingInfo: function(){
+        return _.clone(_pagingInfo);
       },
 
       // todo: move into FilteredTodoList class
