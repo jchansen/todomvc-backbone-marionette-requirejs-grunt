@@ -3,7 +3,9 @@ require.config({
   paths: {
     underscore: '../bower_components/underscore/underscore',
     backbone: '../bower_components/backbone/backbone',
-    marionette: '../bower_components/backbone.marionette/lib/backbone.marionette',
+    marionette: '../bower_components/backbone.marionette/lib/core/amd/backbone.marionette',
+    'backbone.wreqr': '../bower_components/backbone.wreqr/lib/amd/backbone.wreqr',
+    'backbone.babysitter': '../bower_components/backbone.babysitter/lib/amd/backbone.babysitter',
     conductor: 'lib/conductor',
     jquery: '../bower_components/jquery/jquery',
     localStorage: '../bower_components/backbone.localStorage/backbone.localStorage',
@@ -16,26 +18,25 @@ require.config({
 
   shim: {
     underscore: {
+      deps: [],
       exports: '_'
     },
 
     backbone: {
-      exports: 'Backbone',
-      deps: ['jquery', 'underscore']
+      deps: ['underscore', 'jquery'],
+      exports: 'Backbone'
     },
 
     marionette: {
-      exports: 'Backbone.Marionette',
-      deps: ['backbone']
+      deps: ['backbone'],
+      exports: 'Marionette'
     },
 
     'conductor': {
       deps: ['underscore', 'backbone', 'marionette', 'q'],
       exports: 'Conductor'
     }
-  },
-
-  deps: ['jquery', 'underscore']
+  }
 });
 
 require(
@@ -47,3 +48,5 @@ require(
 
     bootstrapper.run();
   });
+
+
