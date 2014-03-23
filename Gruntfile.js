@@ -42,5 +42,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask('default', ['sass', 'requirejs']);
-  grunt.registerTask('heroku', ['requirejs']);
+  grunt.registerTask('heroku', ['sass', 'requirejs']);
 };
