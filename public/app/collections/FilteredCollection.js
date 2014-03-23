@@ -23,7 +23,7 @@ define(
       initialize: function(models, options){
         _cache = options.cache;
         options = options || {};
-        this.filterBy(options.filter || _filter, _.extend({silent: true}, options));
+        this.filterBy(options.filter || _filter, _.extend({silent: true}, options), true);
         this.listenTo(_cache, "all", this.onCacheUpdated, this);
       },
 
@@ -31,13 +31,21 @@ define(
         this.filterBy(_filter);
       },
 
-      filterBy: function(filter, options){
-        _filter = filter || _filter;
-        _filteredModels = _cache.filter(_filter);
-        this.reset(_filteredModels, options);
-        this._calculateAndSetPagingInfo();
-        this.page();
-        return this;
+      filterBy: function(filter, options, calculatePagingInfo){
+        if(_filter !== filter || calculatePagingInfo){
+          _filter = filter || _filter;
+          _filteredModels = _cache.filter(_filter);
+          this.reset(_filteredModels, options);
+          this._calculateAndSetPagingInfo();
+          this.page();
+          return this;
+        }else{
+          _filteredModels = _cache.filter(_filter);
+          this.reset(_filteredModels, options);
+          this.page();
+          return this;
+        }
+
       },
 
       _calculateAndSetPagingInfo: function(){
