@@ -63,7 +63,7 @@
     this.initialize.apply(this, arguments);
   };
 
-  var moduleOptions = ['view', 'submodules', 'data'];
+  var moduleOptions = ['view', 'submodules', 'data', 'loadingView'];
 
   _.extend(Module.prototype, {
 
@@ -81,6 +81,12 @@
 
     render: function (region) {
       var defer = Q.defer();
+
+      if(this.loadingView){
+        var loadingView = new this.loadingView();
+        region.show(loadingView);
+      }
+
       this.renderModule(region).then(function (view) {
         defer.resolve(view);
       }).done();

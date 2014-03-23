@@ -10,7 +10,8 @@ require.config({
     q: '../bower_components/q/q',
     tpl: 'lib/tpl',
     text: 'lib/text',
-    toastr: '../javascripts/toastr'
+    toastr: '../javascripts/toastr',
+    spin: '../javascripts/spin'
   },
 
   shim: {
