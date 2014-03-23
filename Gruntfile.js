@@ -18,10 +18,28 @@ module.exports = function (grunt) {
           ]
         }
       }
+    },
+
+    sass: {
+      compile: {
+        options: {
+          style: 'nested'
+        },
+        files: [
+          {
+            expand: true,
+            cwd: './public/stylesheets/',
+            src: ['all.scss'],
+            dest: './public/stylesheets',
+            ext: '.css'
+          }
+        ]
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
-  grunt.registerTask('default', ['requirejs']);
+  grunt.registerTask('default', ['sass', 'requirejs']);
 };

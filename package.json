@@ -11,7 +11,8 @@
     "ejs": "0.8.5",
     "bower": "~1.2.8",
     "grunt": "~0.4.1",
-    "grunt-contrib-requirejs": "0.4.1"
+    "grunt-contrib-requirejs": "0.4.1",
+    "grunt-contrib-sass": "*"
   },
   "devDependencies": {
     

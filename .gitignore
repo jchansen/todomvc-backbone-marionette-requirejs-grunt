@@ -3,3 +3,4 @@ node_modules
 public_compiled
 public/bower_components
 public/stylesheets/**/*.css
+.sass-cache
