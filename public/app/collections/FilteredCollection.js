@@ -62,6 +62,12 @@ define(
         var pagingInfo = _.clone(options || {});
         _pagingInfo = _.defaults(pagingInfo, defaults);
 
+        _pagingInfo.totalItems = _filteredModels.length;
+        _pagingInfo.totalPages = Math.ceil(_pagingInfo.totalItems / _pagingInfo.resultsPerPage);
+        if(pagingInfo.currentPage > _pagingInfo.totalPages){
+          _pagingInfo.currentPage = pagingInfo.currentPage = _pagingInfo.totalPages;
+        }
+
         var skip = (pagingInfo.currentPage - 1)*pagingInfo.resultsPerPage;
         var take = pagingInfo.resultsPerPage;
         var result = _.chain(_filteredModels)
