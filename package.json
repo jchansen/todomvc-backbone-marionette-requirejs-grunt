@@ -12,7 +12,8 @@
     "bower": "~1.2.8",
     "grunt": "~0.4.1",
     "grunt-contrib-requirejs": "0.4.1",
-    "grunt-contrib-sass": "*"
+    "grunt-contrib-sass": "*",
+    "grunt-mocha": "*"
   },
   "devDependencies": {
     

@@ -35,11 +35,21 @@ module.exports = function (grunt) {
           }
         ]
       }
+    },
+
+    mocha: {
+      test: {
+        src: ['test/test.html'],
+        options: {
+          reporter: 'Nyan'
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-mocha');
 
   grunt.registerTask('default', ['sass', 'requirejs']);
   grunt.registerTask('heroku', ['sass', 'requirejs']);
