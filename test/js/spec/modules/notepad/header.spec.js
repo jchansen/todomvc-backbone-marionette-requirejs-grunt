@@ -26,7 +26,7 @@ define(
         module = null;
       });
 
-      describe("Header Module", function(){
+      describe("creating a todo", function(){
 
         beforeEach(function(done){
           module.render(app.appRegion).done(function(){
