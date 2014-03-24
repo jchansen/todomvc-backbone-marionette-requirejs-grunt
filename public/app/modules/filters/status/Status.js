@@ -85,7 +85,7 @@ define(
       },
 
       onClearClick: function () {
-        window.app.vent.trigger('todoList:clear:completed');
+        app.vent.trigger('todoList:clear:completed');
       }
     });
   });
