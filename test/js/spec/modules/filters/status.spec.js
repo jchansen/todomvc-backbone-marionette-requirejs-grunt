@@ -151,7 +151,89 @@ define(
           $(filter).trigger(e);
         });
 
+        describe("for single active item", function(){
 
+          beforeEach(function(done){
+            app.Repositories = {
+              Todos: function(){
+                return {
+                  getAll: function(){
+                    var defer = Q.defer();
+                    var todoList = new TodoList([
+                      {
+                        title: "1",
+                        completed: true,
+                        created: "2014-03-23T06:22:09.679Z",
+                        _id: "1"
+                      },
+                      {
+                        title: "2",
+                        completed: false,
+                        created: "2014-03-23T06:22:10.455Z",
+                        _id: "2"
+                      }
+                    ]);
+                    defer.resolve(todoList);
+                    return defer.promise;
+                  }
+                }
+              }
+            }
+
+            module.render(app.appRegion).done(function(){
+              done();
+            });
+          });
+
+          it("should display the item count with proper pluralization", function(){
+            var $el = app.appRegion.$el;
+            var todoCount = $el.find('.todo-count')[0];
+            expect(todoCount.innerHTML).to.equal('<strong>1</strong> item left')
+          });
+
+        });
+
+        describe("for single active item", function(){
+
+          beforeEach(function(done){
+            app.Repositories = {
+              Todos: function(){
+                return {
+                  getAll: function(){
+                    var defer = Q.defer();
+                    var todoList = new TodoList([
+                      {
+                        title: "1",
+                        completed: false,
+                        created: "2014-03-23T06:22:09.679Z",
+                        _id: "1"
+                      },
+                      {
+                        title: "2",
+                        completed: false,
+                        created: "2014-03-23T06:22:10.455Z",
+                        _id: "2"
+                      }
+                    ]);
+                    defer.resolve(todoList);
+                    return defer.promise;
+                  }
+                }
+              }
+            }
+
+            module.render(app.appRegion).done(function(){
+              done();
+            });
+          });
+
+          it("should display the item count with proper pluralization", function(){
+            var $el = app.appRegion.$el;
+            var todoCount = $el.find('.todo-count')[0];
+            expect(todoCount.innerHTML).to.equal('<strong>2</strong> items left')
+          });
+
+        });
 
       });
 
