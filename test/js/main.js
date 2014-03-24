@@ -20,7 +20,8 @@
       collections: '../../public/app/collections',
       context: '../../public/app/context',
       logger: '../../public/app/logger',
-      toastr: '../../public/javascripts/toastr'
+      toastr: '../../public/javascripts/toastr',
+      spin: '../../public/javascripts/spin'
     },
     shim: {
       underscore: {
