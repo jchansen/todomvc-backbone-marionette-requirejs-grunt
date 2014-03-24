@@ -60,6 +60,7 @@ define(
       },
 
       updateVisibility: function(){
+        $('#statusFilterRegion').toggle(this.collection.length > 0);
         this.$el.toggle(this.collection.length > 0);
       },
 

@@ -68,6 +68,7 @@ define(
       },
 
       updateVisibility: function(){
+        $('#pagingFilterRegion').toggle(this.collection.length > 0);
         this.$el.toggle(this.collection.length > 0);
       },
 
