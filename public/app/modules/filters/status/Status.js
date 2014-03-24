@@ -79,7 +79,8 @@ define(
       updateCompletedCount: function(){
         var completedTodos = this.collection.getCompleted();
         this.ui.completedCount
-          .toggle(completedTodos.length > 0)
+          //.toggle(completedTodos.length > 0)
+          .toggle(false) // hide the button until the logic exists to implement it
           .html('Clear completed (' + completedTodos.length + ')');
       },
 
