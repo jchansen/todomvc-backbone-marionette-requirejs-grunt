@@ -17,15 +17,50 @@ define(
 
       var module = null;
 
-      beforeEach(function(){
+      function resetRepositories(done){
+        app.Repositories = {
+          Todos: function(){
+            return {
+              getAll: function(){
+                var defer = Q.defer();
+                var todoList = new TodoList([
+                  {
+                    title: "1",
+                    completed: true,
+                    created: "2014-03-23T06:22:09.679Z",
+                    _id: "1"
+                  },
+                  {
+                    title: "2",
+                    completed: false,
+                    created: "2014-03-23T06:22:10.455Z",
+                    _id: "2"
+                  }
+                ]);
+                var filteredCollection = new FilteredCollection(null, {cache: todoList});
+                defer.resolve(filteredCollection);
+                return defer.promise;
+              }
+            }
+          }
+        }
+      }
+
+      beforeEach(function(done){
         app.addRegions({
           appRegion: '#appRegion'
         });
         module = new Module();
+        module.render(app.appRegion).done(function(){
+          done();
+        });
       });
 
       afterEach(function(){
         module = null;
+        resetRepositories();
+        app.commands.off();
+        app.vent.off();
       });
 
       describe("without any todo items", function(){
@@ -57,43 +92,6 @@ define(
       });
 
       describe("with todo items", function(){
-
-        beforeEach(function(done){
-          app.Repositories = {
-            Todos: function(){
-              return {
-                getAll: function(){
-                  var defer = Q.defer();
-                  var todoList = new TodoList([
-                    {
-                      title: "1",
-                      completed: true,
-                      created: "2014-03-23T06:22:09.679Z",
-                      _id: "1"
-                    },
-                    {
-                      title: "2",
-                      completed: false,
-                      created: "2014-03-23T06:22:10.455Z",
-                      _id: "2"
-                    }
-                  ]);
-                  var filteredCollection = new FilteredCollection(null, {cache: todoList});
-                  defer.resolve(filteredCollection);
-                  return defer.promise;
-                }
-              }
-            }
-          }
-
-          module.render(app.appRegion).done(function(){
-            done();
-          });
-        });
-
-        afterEach(function(){
-          app.vent.off();
-        });
 
         it("should be visible", function(){
           var $el = app.appRegion.$el;
@@ -183,7 +181,10 @@ define(
 
         describe("editing an item", function(){
 
-          beforeEach(function(){
+          beforeEach(function(done){
+            module.render(app.appRegion).done(function(){
+              done();
+            });
             app.vent.trigger('todoList:filter','');
           });
 
