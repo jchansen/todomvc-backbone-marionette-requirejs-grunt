@@ -31,8 +31,8 @@ define(
           todo = new Todo({
             title: todoText
           });
-          app.commands.execute("todo:create", todo);
           this.ui.input.val('');
+          app.commands.execute("todo:create", todo);
         }
       }
     });
