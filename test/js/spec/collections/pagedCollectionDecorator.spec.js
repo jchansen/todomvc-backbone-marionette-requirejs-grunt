@@ -94,6 +94,60 @@ define(
           }
         });
 
+        describe("when underlying collection changes", function(){
+
+          beforeEach(function(){
+            var config = pagedCollection.getConfig().pagingConfig;
+            expect(config.resultsPerPage).to.equal(5);
+            expect(config.totalItems).to.equal(12);
+            expect(config.currentPage).to.equal(1);
+            expect(config.totalPages).to.equal(3);
+
+            for(var i = 0; i < pagedCollection.length; i++){
+              expect(pagedCollection.at(i).id).to.equal(i+1);
+            }
+          });
+
+          it("should update paging information when on first page", function(){
+            collection.add({id: 13});
+            var config = pagedCollection.getConfig().pagingConfig;
+            expect(config.resultsPerPage).to.equal(5);
+            expect(config.totalItems).to.equal(13);
+            expect(config.currentPage).to.equal(1);
+            expect(config.totalPages).to.equal(3);
+
+            for(var i = 0; i < pagedCollection.length; i++){
+              expect(pagedCollection.at(i).id).to.equal(i+1);
+            }
+          });
+
+          it("should stay on current page after an update", function(){
+            pagedCollection.setPage(2);
+            collection.add({id: 13});
+
+            var config = pagedCollection.getConfig().pagingConfig;
+            expect(config.resultsPerPage).to.equal(5);
+            expect(config.totalItems).to.equal(13);
+            expect(config.currentPage).to.equal(2);
+            expect(config.totalPages).to.equal(3);
+
+            for(var i = 0; i < pagedCollection.length; i++){
+              expect(pagedCollection.at(i).id).to.equal(i+1+5);
+            }
+          });
+
+          it("should add new pages when models overflow last page", function(){
+            pagedCollection.setPage(2);
+            collection.add([{id: 13}, {id: 14}, {id: 15}, {id:16}]);
+
+            var config = pagedCollection.getConfig().pagingConfig;
+            expect(config.resultsPerPage).to.equal(5);
+            expect(config.totalItems).to.equal(16);
+            expect(config.currentPage).to.equal(2);
+            expect(config.totalPages).to.equal(4);
+          });
+        });
+
       });
 
     });

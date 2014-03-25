@@ -16,7 +16,7 @@ define(
         this._pagingConfig = {
           resultsPerPage: Number.MAX_VALUE
         };
-        //this.listenTo(_cache, "all", this.onCollectionUpdated, this);
+        this.listenTo(this._collection, "all", this.onCollectionUpdated, this);
         options = _.extend({silent: true}, options);
         this.execute(options);
       },
