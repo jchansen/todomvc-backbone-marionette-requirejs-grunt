@@ -11,37 +11,28 @@ define(
 
     return CollectionDecorator.extend({
 
-      initialize: function(models, options){
-        this._pagingConfig = {
-          resultsPerPage: Number.MAX_VALUE
-        };
-        CollectionDecorator.prototype.initialize.apply(this, [models, options]);
+      defaultConfig: {
+        resultsPerPage: Number.MAX_VALUE
       },
-
-      getConfig: function(){
-        var config = {};
-        config.pagingConfig = _.clone(this._pagingConfig);
-        if(this._collection instanceof CollectionDecorator) _.defaults(config, this._collection.getConfig());
-        return config;
-      },
+      configName: 'pagingConfig',
 
       setPagingConfig: function(options){
         options = options || {};
-        var pagingConfig = options.pagingConfig || {};
-        var _pagingConfig = this._pagingConfig;
+        var config = options[this.configName] || {};
+        var _config = this._config;
         var _collection = this._collection;
 
-        _.extend(_pagingConfig, pagingConfig);
-        _pagingConfig.totalItems = _collection.length;
-        _pagingConfig.totalPages = Math.ceil(_pagingConfig.totalItems / _pagingConfig.resultsPerPage);
-        if(_pagingConfig.currentPage < 1 || !_pagingConfig.currentPage) _pagingConfig.currentPage = 1;
-        _pagingConfig.currentPage = _pagingConfig.currentPage > _pagingConfig.totalPages ? _pagingConfig.totalPages : _pagingConfig.currentPage;
+        _.extend(_config, config);
+        _config.totalItems = _collection.length;
+        _config.totalPages = Math.ceil(_config.totalItems / _config.resultsPerPage);
+        if(_config.currentPage < 1 || !_config.currentPage) _config.currentPage = 1;
+        _config.currentPage = _config.currentPage > _config.totalPages ? _config.totalPages : _config.currentPage;
       },
 
       execute: function(options){
         var skip, take, result = null;
         this.setPagingConfig(options);
-        var _pagingConfig = this._pagingConfig;
+        var _pagingConfig = this._config;
         var _collection = this._collection;
 
         skip = (_pagingConfig.currentPage - 1)*_pagingConfig.resultsPerPage;

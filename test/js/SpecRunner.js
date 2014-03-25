@@ -8,7 +8,8 @@ define(
 
       // collections
       './js/spec/collections/pagedCollectionDecorator.spec.js',
-      './js/spec/collections/filteredCollectionDecorator.spec.js'
+      './js/spec/collections/filteredCollectionDecorator.spec.js',
+      './js/spec/collections/filteredAndPagedCollection.spec.js'
     ],
     function () {
 

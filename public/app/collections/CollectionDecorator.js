@@ -10,9 +10,13 @@ define(
 
     var CollectionDecorator = Backbone.Collection.extend({
 
+      defaultConfig: {},
+      configName: 'abstractBaseConfig',
+
       // FilterCollection.prototype.initialize.apply(this, models, options);
       initialize: function(models, options){
         if(!(options.collection instanceof Backbone.Collection)) throw new Error("must pass in collection");
+        this._config = _.clone(this.defaultConfig);
         this._collection = options.collection;
         this.listenTo(this._collection, "all", this.onCollectionUpdated, this);
         options = _.extend({silent: true}, options);
@@ -24,7 +28,10 @@ define(
       },
 
       getConfig: function(){
-        return {filterConfig: _.clone(this._filterConfig)};
+        var config = {};
+        config[this.configName] = _.clone(this._config);
+        if(this._collection instanceof CollectionDecorator) _.defaults(config, this._collection.getConfig());
+        return config;
       },
 
       execute: function(options){
