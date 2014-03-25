@@ -1,12 +1,12 @@
 define(
   [
-    'backbone',
+    'marionette',
     'logger',
     'underscore'
   ],
-  function (Backbone, logger, _) {
+  function (Marionette, logger, _) {
 
-    var Repository = Backbone.Marionette.Controller.extend({
+    var Repository = Marionette.Controller.extend({
 
       _plural: null,
       _singular: null,
