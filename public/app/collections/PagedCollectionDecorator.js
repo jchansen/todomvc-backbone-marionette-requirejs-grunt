@@ -8,42 +8,46 @@ define(
   function (Backbone, _) {
     'use strict';
 
-    var _collection = null;
-    var _pagingConfig = {
-      resultsPerPage: Number.MAX_VALUE,
-      currentPage: 1,
-      totalPages: 1
-    };
-    var _pagingInfo = null;
-
     return Backbone.Collection.extend({
+
       initialize: function(models, options){
-        _collection = options.collection;
+        if(!(options.collection instanceof Backbone.Collection)) throw new Error("must pass in collection");
+        this._collection = options.collection;
+        this._pagingConfig = {
+          resultsPerPage: Number.MAX_VALUE
+        };
         //this.listenTo(_cache, "all", this.onCollectionUpdated, this);
         options = _.extend({silent: true}, options);
-        options.pagingConfig = options.pagingConfig || {};
-        _.defaults(options.pagingConfig, _pagingConfig);
-
-        this.reset(_collection.models, options);
         this.execute(options);
       },
 
       onCollectionUpdated: function(event){
-        this.filterBy(_filter);
+        this.execute();
+      },
+
+      getConfig: function(){
+        return {pagingConfig: _.clone(this._pagingConfig)};
       },
 
       setPagingConfig: function(options){
+        options = options || {};
         var pagingConfig = options.pagingConfig || {};
+        var _pagingConfig = this._pagingConfig;
+        var _collection = this._collection;
+
         _.extend(_pagingConfig, pagingConfig);
         _pagingConfig.totalItems = _collection.length;
         _pagingConfig.totalPages = Math.ceil(_pagingConfig.totalItems / _pagingConfig.resultsPerPage);
-        if(_pagingConfig.currentPage < 1) _pagingConfig.currentPage = 1;
-        _pagingConfig.currentPage = _pagingConfig.currentPage > _pagingConfig.currentPage ? _pagingConfig.totalPages : _pagingConfig.currentPage;
+        if(_pagingConfig.currentPage < 1 || !_pagingConfig.currentPage) _pagingConfig.currentPage = 1;
+        _pagingConfig.currentPage = _pagingConfig.currentPage > _pagingConfig.totalPages ? _pagingConfig.totalPages : _pagingConfig.currentPage;
       },
 
       execute: function(options){
         var skip, take, result = null;
         this.setPagingConfig(options);
+        var _pagingConfig = this._pagingConfig;
+        var _collection = this._collection;
+
         skip = (_pagingConfig.currentPage - 1)*_pagingConfig.resultsPerPage;
         take = _pagingConfig.resultsPerPage;
         result =  _collection.chain()
@@ -52,6 +56,10 @@ define(
                               .first(_pagingConfig.resultsPerPage)
                               .value();
         this.reset(result, options);
+      },
+
+      updateConfiguration: function(options){
+        this.execute(options);
       },
 
       setPage: function(pageNumber){
