@@ -1,10 +1,9 @@
 define(
   [
     'backbone',
-    'marionette',
-    'collections/FilteredCollection'
+    'marionette'
   ],
-  function (Backbone, Marionette, FilteredCollection) {
+  function (Backbone, Marionette) {
 
     var Repository = Marionette.Controller.extend({
 
@@ -39,8 +38,7 @@ define(
         if (options.forceFetch) this._fetchCollection();
 
         this._promise.done(function () {
-          var filteredCollection = new FilteredCollection(null, {cache: that._collection});
-          deferred.resolve(filteredCollection);
+          deferred.resolve(that._collection);
         });
 
         return deferred.promise();

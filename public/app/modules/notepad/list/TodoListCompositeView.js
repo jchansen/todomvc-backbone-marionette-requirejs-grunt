@@ -5,9 +5,11 @@ define(
     'marionette',
     'tpl!./todoListCompositeView.html',
     './TodoItemView',
-    'app'
+    'app',
+    'collections/FilteredCollectionDecorator',
+    'collections/PagedCollectionDecorator'
   ],
-  function (Marionette, template, ItemView) {
+  function (Marionette, template, ItemView, app, FilteredCollectionDecorator, PagedCollectionDecorator) {
     'use strict';
 
     return Marionette.CompositeView.extend({
@@ -26,22 +28,31 @@ define(
         'click #toggle-all': 'onToggleAllClick'
       },
 
-      initialize: function () {
+      initialize: function (options) {
         var self = this;
         this.listenTo(this.collection, 'all', this.updateToggleCheckbox, this);
         this.listenTo(this.collection, 'all', this.updateVisibility, this);
 
         app.vent.on('todoList:filter', function (filter) {
           var completed = filter === "active" ? false : true;
-          self.collection.filterBy(function(model){
+          var newFilter = function(model){
             var status = model.get('completed');
             if(filter === "") return true;
             return status === completed;
+          };
+          self.collection.updateConfiguration({
+            filterConfig: {
+              filter: newFilter
+            }
           });
         });
 
         app.vent.on("todoList:page", function(pageNumber){
-          self.collection.page({currentPage: pageNumber});
+          self.collection.updateConfiguration({
+            pagingConfig: {
+              currentPage: pageNumber
+            }
+          });
         });
       },
 

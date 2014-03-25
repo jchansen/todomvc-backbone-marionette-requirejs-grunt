@@ -14,10 +14,8 @@ define(
       data: {
         collection: function(){
           var defer = Q.defer();
-          app.Repositories.Todos().getAll().done(function(todos){
-            //setTimeout(function(){
-              defer.resolve(todos);
-            //}, 1000);
+          app.reqres.request("todoList:paged").done(function(todos){
+            defer.resolve(todos);
           });
           return defer.promise;
         }
