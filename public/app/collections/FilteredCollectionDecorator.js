@@ -3,34 +3,38 @@
 define(
   [
     'backbone',
-    'underscore'
+    'underscore',
+    './CollectionDecorator'
   ],
-  function (Backbone, _) {
+  function (Backbone, _, CollectionDecorator) {
     'use strict';
 
-    return Backbone.Collection.extend({
+    return CollectionDecorator.extend({
 
+      // defaultConfig: {filter: function(){}}
+      // configName: 'filterConfig'
+
+      // this._config = defaultConfig;
+      // CAN REMOVE
       initialize: function(models, options){
-        if(!(options.collection instanceof Backbone.Collection)) throw new Error("must pass in collection");
-        this._collection = options.collection;
         this._filterConfig = {
           filter: function(model){
             return true;
           }
         };
-        this.listenTo(this._collection, "all", this.onCollectionUpdated, this);
-        options = _.extend({silent: true}, options);
-        this.execute(options);
+        CollectionDecorator.prototype.initialize.apply(this, [models, options]);
       },
 
-      onCollectionUpdated: function(event){
-        this.execute();
-      },
-
+      // config[configName] = _.clone(this._config);
+      // CAN REMOVE
       getConfig: function(){
-        return {filterConfig: _.clone(this._filterConfig)};
+        var config = {};
+        config.filterConfig = _.clone(this._filterConfig);
+        if(this._collection instanceof CollectionDecorator) _.defaults(config, this._collection.getConfig());
+        return config;
       },
 
+      // setConfig...
       setFilterConfig: function(options){
         options = options || {};
         var filterConfig = options.filterConfig || {};
@@ -46,10 +50,6 @@ define(
         var filter = this._filterConfig.filter;
         var filteredModels = this._collection.filter(filter);
         this.reset(filteredModels, options);
-      },
-
-      updateConfiguration: function(options){
-        this.execute(options);
       }
 
     });

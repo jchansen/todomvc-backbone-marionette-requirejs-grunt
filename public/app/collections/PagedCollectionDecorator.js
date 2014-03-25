@@ -3,30 +3,26 @@
 define(
   [
     'backbone',
-    'underscore'
+    'underscore',
+    './CollectionDecorator'
   ],
-  function (Backbone, _) {
+  function (Backbone, _, CollectionDecorator) {
     'use strict';
 
-    return Backbone.Collection.extend({
+    return CollectionDecorator.extend({
 
       initialize: function(models, options){
-        if(!(options.collection instanceof Backbone.Collection)) throw new Error("must pass in collection");
-        this._collection = options.collection;
         this._pagingConfig = {
           resultsPerPage: Number.MAX_VALUE
         };
-        this.listenTo(this._collection, "all", this.onCollectionUpdated, this);
-        options = _.extend({silent: true}, options);
-        this.execute(options);
-      },
-
-      onCollectionUpdated: function(event){
-        this.execute();
+        CollectionDecorator.prototype.initialize.apply(this, [models, options]);
       },
 
       getConfig: function(){
-        return {pagingConfig: _.clone(this._pagingConfig)};
+        var config = {};
+        config.pagingConfig = _.clone(this._pagingConfig);
+        if(this._collection instanceof CollectionDecorator) _.defaults(config, this._collection.getConfig());
+        return config;
       },
 
       setPagingConfig: function(options){
@@ -56,10 +52,6 @@ define(
                               .first(_pagingConfig.resultsPerPage)
                               .value();
         this.reset(result, options);
-      },
-
-      updateConfiguration: function(options){
-        this.execute(options);
       },
 
       setPage: function(pageNumber){
