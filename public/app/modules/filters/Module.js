@@ -3,9 +3,10 @@
     'conductor',
     './Layout',
     './status/Module',
-    './paging/Module'
+    './paging/Module',
+    './sorting/Module'
   ],
-  function (Conductor, Layout, StatusFilterModule, PagingFilterModule) {
+  function (Conductor, Layout, StatusFilterModule, PagingFilterModule, SortingFilterModule) {
 
     return Conductor.LayoutModule.extend({
       view: Layout,
@@ -18,6 +19,10 @@
         {
           module: PagingFilterModule,
           region: "pagingFilterRegion"
+        },
+        {
+          module: SortingFilterModule,
+          region: "sortingFilterRegion"
         }
       ]
 

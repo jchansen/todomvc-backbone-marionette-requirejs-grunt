@@ -5,6 +5,7 @@ define(
       './js/spec/modules/notepad/list.spec.js',
       './js/spec/modules/filters/status.spec.js',
       './js/spec/modules/filters/paging.spec.js',
+      './js/spec/modules/filters/sorting.spec.js',
       './js/spec/modules/info.spec.js',
 
       // collections

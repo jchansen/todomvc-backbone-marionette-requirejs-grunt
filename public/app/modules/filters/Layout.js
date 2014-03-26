@@ -10,7 +10,8 @@
 
       regions: {
         statusFilterRegion: '#statusFilterRegion',
-        pagingFilterRegion: '#pagingFilterRegion'
+        pagingFilterRegion: '#pagingFilterRegion',
+        sortingFilterRegion: "#sortingFilterRegion"
       }
 
     });

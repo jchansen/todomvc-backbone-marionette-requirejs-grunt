@@ -3,9 +3,10 @@ define(
     'app',
     'q',
     'collections/FilteredCollectionDecorator',
+    'collections/SortedCollectionDecorator',
     'collections/PagedCollectionDecorator'
   ],
-  function (app, Q, FilteredCollectionDecorator, PagedCollectionDecorator) {
+  function (app, Q, FilteredCollectionDecorator, SortedCollectionDecorator, PagedCollectionDecorator) {
 
     var commands = function () {
       var _modelName = 'todo';
@@ -35,27 +36,24 @@ define(
         return defer.promise;
       });
 
-      var filteredTodoList = null;
-      app.reqres.setHandler("todoList:filtered", function (model) {
-        var defer = Q.defer();
-        app.reqres.request("todoList").done(function (todos) {
-          filteredTodoList = filteredTodoList || new FilteredCollectionDecorator(null, {collection: todos});
-          defer.resolve(filteredTodoList);
+      function generateDecoratedTodoList(todos){
+        var filteredList = new FilteredCollectionDecorator(null, {collection: todos});
+        var sortedList = new SortedCollectionDecorator(null, {collection: filteredList});
+        var pagedList = new PagedCollectionDecorator(null, {
+          collection: sortedList,
+          pagingConfig: {
+            resultsPerPage: 4
+          }
         });
-        return defer.promise;
-      });
+        return pagedList;
+      }
 
-      var pagedFilteredTodoList = null;
+      var decoratedTodoList = null;
       app.reqres.setHandler("todoList:paged", function (model) {
         var defer = Q.defer();
-        app.reqres.request("todoList:filtered").done(function (todos) {
-          pagedFilteredTodoList = pagedFilteredTodoList || new PagedCollectionDecorator(null, {
-            collection: todos,
-            pagingConfig: {
-              resultsPerPage: 4
-            }
-          });
-          defer.resolve(pagedFilteredTodoList);
+        app.reqres.request("todoList").done(function (todos) {
+          decoratedTodoList = decoratedTodoList || generateDecoratedTodoList(todos);
+          defer.resolve(decoratedTodoList);
         });
         return defer.promise;
       });

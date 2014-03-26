@@ -43,11 +43,16 @@ define(
             (new InfoModule()).render(app.info)
           ]).done(function () {
             self.setFilter(param);
+            self.setSortingFilter('date');
           });
       },
 
       setFilter: function (param) {
         app.vent.trigger('todoList:filter', param && param.trim() || '');
+      },
+
+      setSortingFilter: function (param) {
+        app.vent.trigger('todoList:sort', param && param.trim() || 'date');
       }
 
     });
