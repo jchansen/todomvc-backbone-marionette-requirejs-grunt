@@ -6,237 +6,212 @@ define(
     'underscore',
     'q',
     'modules/filters/status/Module',
+    'modules/filters/status/Status',
     'app',
-    'collections/TodoList'
+    'collections/TodoList',
+    'collections/FilteredCollectionDecorator',
+    'collections/PagedCollectionDecorator'
   ],
-  function (Backbone, Marionette, Conductor, _, Q, Module, app, TodoList) {
+  function (Backbone, Marionette, Conductor, _, Q, Module, View, app, TodoList, FilteredCollectionDecorator, PagedCollectionDecorator) {
 
-    describe("Filter: Status Module", function(){
+    describe("Filter: Status", function(){
       "use strict";
-
-      var module = null;
 
       beforeEach(function(){
         app.addRegions({
           appRegion: '#appRegion'
         });
-        module = new Module();
+        app.reqres.off();
+        app.commands.off();
+        app.vent.off();
       });
 
-      afterEach(function(){
-        module = null;
-      });
+      describe("module", function(){
 
-      describe("without any todo items", function(){
+        beforeEach(function(){
+          var todoList = new TodoList();
+          var filteredList = new FilteredCollectionDecorator(null, {collection: todoList});
+          var pagedList = new PagedCollectionDecorator(null, {collection: filteredList});
+          app.reqres.setHandler("todoList", function(){
+            var defer = Q.defer();
+            defer.resolve(todoList);
+            return defer.promise;
+          });
+          app.reqres.setHandler("todoList:paged", function(){
+            var defer = Q.defer();
+            defer.resolve(pagedList);
+            return defer.promise;
+          });
+        });
 
-        beforeEach(function(done){
-          app.Repositories = {
-            Todos: function(){
-              return {
-                getAll: function(){
-                  var defer = Q.defer();
-                  var todoList = new TodoList();
-                  defer.resolve(todoList);
-                  return defer.promise;
-                }
-              }
-            }
-          }
-
+        it("should instantiate view without error", function(done){
+          var module = new Module();
           module.render(app.appRegion).done(function(){
             done();
           });
         });
-
-        it("should not be visible", function(){
-          var $el = app.appRegion.$el;
-          expect($el.find('div')[0].style['display']).to.equal("none");
-        });
-
       });
 
-      describe("with todo items", function(){
+      describe("view", function(){
 
-        beforeEach(function(done){
-          app.Repositories = {
-            Todos: function(){
-              return {
-                getAll: function(){
-                  var defer = Q.defer();
-                  var todoList = new TodoList([
-                    {
-                      title: "1",
-                      completed: true,
-                      created: "2014-03-23T06:22:09.679Z",
-                      _id: "1"
-                    },
-                    {
-                      title: "2",
-                      completed: false,
-                      created: "2014-03-23T06:22:10.455Z",
-                      _id: "2"
-                    }
-                  ]);
-                  defer.resolve(todoList);
-                  return defer.promise;
-                }
-              }
+        describe("without any todo items", function(){
+
+          beforeEach(function(){
+            var todoList = new TodoList();
+            var filteredList = new FilteredCollectionDecorator(null, {collection: todoList});
+            var pagedList = new PagedCollectionDecorator(null, {collection: filteredList});
+            var view = new View({collection: todoList, pagedCollection: pagedList});
+            app.appRegion.show(view);
+          });
+
+          it("should not be visible", function(){
+            var $el = app.appRegion.$el;
+            expect($el.find('div')[0].style['display']).to.equal("none");
+          });
+
+        });
+
+        describe("with todo items", function(){
+
+          var view = null;
+          var pagedList = null;
+          beforeEach(function(){
+            var models = [];
+            for(var i = 1; i <= 12; i++){
+              models.push({id: i});
             }
-          }
-
-          module.render(app.appRegion).done(function(){
-            done();
-          });
-        });
-
-        afterEach(function(){
-          app.vent.off();
-        });
-
-        it("should be visible", function(){
-          var $el = app.appRegion.$el;
-          expect($el.find('div')[0].style['display']).to.not.equal("none");
-        });
-
-        it("should have three filters", function(){
-          var $el = app.appRegion.$el;
-          var filters = $el.find('.filters a');
-          expect(filters[0].outerHTML).to.equal('<a href="#">All</a>');
-          expect(filters[1].outerHTML).to.equal('<a href="#active">Active</a>');
-          expect(filters[2].outerHTML).to.equal('<a href="#completed">Completed</a>');
-        });
-
-        it("should send event when the 'all' filter is clicked", function(done){
-          var $el = app.appRegion.$el;
-          var filter = $el.find('li a')[0];
-
-          // check for the correct event
-          app.vent.on('todoList:filter', function(e){
-            expect(e).to.equal('');
-            done();
+            var todoList = new TodoList(models);
+            var filteredList = new FilteredCollectionDecorator(null, {collection: todoList});
+            pagedList = new PagedCollectionDecorator(null, {
+              collection: filteredList
+            });
+            view = new View({collection: todoList, filteredCollection: pagedList});
+            app.appRegion.show(view);
           });
 
-          // click the filter
-          var e = $.Event("click");
-          $(filter).trigger(e);
-        });
-
-        it("should send event when the 'active' filter is clicked", function(done){
-          var $el = app.appRegion.$el;
-          var filter = $el.find('li a')[1];
-
-          // check for the correct event
-          app.vent.on('todoList:filter', function(e){
-            expect(e).to.equal('active');
-            done();
+          it("should be visible", function(){
+            var $el = app.appRegion.$el;
+            expect($el.find('div')[0].style['display']).to.not.equal("none");
           });
 
-          // click the filter
-          var e = $.Event("click");
-          $(filter).trigger(e);
-        });
-
-        it("should send event when the 'completed' filter is clicked", function(done){
-          var $el = app.appRegion.$el;
-          var filter = $el.find('li a')[2];
-
-          // check for the correct event
-          app.vent.on('todoList:filter', function(e){
-            expect(e).to.equal('completed');
-            done();
+          it("should have three filters", function(){
+            var $el = app.appRegion.$el;
+            var filters = $el.find('.filters a');
+            expect(filters[0].outerHTML).to.equal('<a href="#">All</a>');
+            expect(filters[1].outerHTML).to.equal('<a href="#active">Active</a>');
+            expect(filters[2].outerHTML).to.equal('<a href="#completed">Completed</a>');
           });
 
-          // click the filter
-          var e = $.Event("click");
-          $(filter).trigger(e);
-        });
+          it("should send event when the 'all' filter is clicked", function(done){
+            var $el = app.appRegion.$el;
+            var filter = $el.find('li a')[0];
 
-        describe("for single active item", function(){
-
-          beforeEach(function(done){
-            app.Repositories = {
-              Todos: function(){
-                return {
-                  getAll: function(){
-                    var defer = Q.defer();
-                    var todoList = new TodoList([
-                      {
-                        title: "1",
-                        completed: true,
-                        created: "2014-03-23T06:22:09.679Z",
-                        _id: "1"
-                      },
-                      {
-                        title: "2",
-                        completed: false,
-                        created: "2014-03-23T06:22:10.455Z",
-                        _id: "2"
-                      }
-                    ]);
-                    defer.resolve(todoList);
-                    return defer.promise;
-                  }
-                }
-              }
-            }
-
-            module.render(app.appRegion).done(function(){
+            // check for the correct event
+            app.vent.on('todoList:filter', function(e){
+              expect(e).to.equal('');
               done();
             });
+
+            // click the filter
+            var e = $.Event("click");
+            $(filter).trigger(e);
           });
 
-          it("should display the item count with proper pluralization", function(){
+          it("should send event when the 'active' filter is clicked", function(done){
             var $el = app.appRegion.$el;
-            var todoCount = $el.find('.todo-count')[0];
-            expect(todoCount.innerHTML).to.equal('<strong>1</strong> item left')
-          });
+            var filter = $el.find('li a')[1];
 
-        });
-
-        describe("for single active item", function(){
-
-          beforeEach(function(done){
-            app.Repositories = {
-              Todos: function(){
-                return {
-                  getAll: function(){
-                    var defer = Q.defer();
-                    var todoList = new TodoList([
-                      {
-                        title: "1",
-                        completed: false,
-                        created: "2014-03-23T06:22:09.679Z",
-                        _id: "1"
-                      },
-                      {
-                        title: "2",
-                        completed: false,
-                        created: "2014-03-23T06:22:10.455Z",
-                        _id: "2"
-                      }
-                    ]);
-                    defer.resolve(todoList);
-                    return defer.promise;
-                  }
-                }
-              }
-            }
-
-            module.render(app.appRegion).done(function(){
+            // check for the correct event
+            app.vent.on('todoList:filter', function(e){
+              expect(e).to.equal('active');
               done();
             });
+
+            // click the filter
+            var e = $.Event("click");
+            $(filter).trigger(e);
           });
 
-          it("should display the item count with proper pluralization", function(){
+          it("should send event when the 'completed' filter is clicked", function(done){
             var $el = app.appRegion.$el;
-            var todoCount = $el.find('.todo-count')[0];
-            expect(todoCount.innerHTML).to.equal('<strong>2</strong> items left')
+            var filter = $el.find('li a')[2];
+
+            // check for the correct event
+            app.vent.on('todoList:filter', function(e){
+              expect(e).to.equal('completed');
+              done();
+            });
+
+            // click the filter
+            var e = $.Event("click");
+            $(filter).trigger(e);
+          });
+
+          describe("when a single item is active", function(){
+
+            beforeEach(function(){
+              var models = [{
+                title: "1",
+                completed: true,
+                created: "2014-03-23T06:22:09.679Z",
+                _id: "1"
+              },{
+                title: "2",
+                completed: false,
+                created: "2014-03-23T06:22:10.455Z",
+                _id: "2"
+              }];
+              var todoList = new TodoList(models);
+              var filteredList = new FilteredCollectionDecorator(null, {collection: todoList});
+              pagedList = new PagedCollectionDecorator(null, {
+                collection: filteredList
+              });
+              view = new View({collection: todoList, filteredCollection: pagedList});
+              app.appRegion.show(view);
+            });
+
+            it("should display the item count with proper pluralization", function(){
+              var $el = app.appRegion.$el;
+              var todoCount = $el.find('.todo-count')[0];
+              expect(todoCount.innerHTML).to.equal('<strong>1</strong> item left')
+            });
+
+          });
+
+          describe("when multiple items are active", function(){
+
+            beforeEach(function(){
+              var models = [{
+                title: "1",
+                completed: false,
+                created: "2014-03-23T06:22:09.679Z",
+                _id: "1"
+              },{
+                title: "2",
+                completed: false,
+                created: "2014-03-23T06:22:10.455Z",
+                _id: "2"
+              }];
+              var todoList = new TodoList(models);
+              var filteredList = new FilteredCollectionDecorator(null, {collection: todoList});
+              pagedList = new PagedCollectionDecorator(null, {
+                collection: filteredList
+              });
+              view = new View({collection: todoList, filteredCollection: pagedList});
+              app.appRegion.show(view);
+            });
+
+            it("should display the item count with proper pluralization", function(){
+              var $el = app.appRegion.$el;
+              var todoCount = $el.find('.todo-count')[0];
+              expect(todoCount.innerHTML).to.equal('<strong>2</strong> items left')
+            });
+
           });
 
         });
 
       });
-
     });
   }
 );
