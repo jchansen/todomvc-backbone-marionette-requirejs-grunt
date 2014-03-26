@@ -11,6 +11,7 @@ define(
 
     return Marionette.ItemView.extend({
       template: template,
+      className: "filter",
 
       ui: {
         filters: '.filters a',
@@ -73,7 +74,6 @@ define(
       },
 
       updateVisibility: function(){
-        $('#statusFilterRegion').toggle(this.collection.length > 0);
         this.$el.toggle(this.collection.length > 0);
       },
 

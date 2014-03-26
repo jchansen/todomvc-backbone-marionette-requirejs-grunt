@@ -10,6 +10,7 @@ define(
 
     return Marionette.ItemView.extend({
       template: template,
+      className: "filter",
 
       ui: {
         //pages: '.filters a',
@@ -62,7 +63,6 @@ define(
       },
 
       updateVisibility: function(){
-        $('#pagingFilterRegion').toggle(this.collection.length > 0);
         this.$el.toggle(this.collection.length > 0);
       },
 
