@@ -9,8 +9,8 @@ module.exports = function (grunt) {
           appDir: 'public',
           baseUrl: 'app',
           dir: "public_compiled",
-          //removeCombined: true,
-          optimize: 'none',
+          removeCombined: true,
+          //optimize: 'none',
           modules: [
             {
               name: "main"
