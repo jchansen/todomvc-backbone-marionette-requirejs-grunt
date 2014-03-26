@@ -5,11 +5,9 @@ define(
     'marionette',
     'tpl!./todoListCompositeView.html',
     './TodoItemView',
-    'app',
-    'collections/FilteredCollectionDecorator',
-    'collections/PagedCollectionDecorator'
+    'app'
   ],
-  function (Marionette, template, ItemView, app, FilteredCollectionDecorator, PagedCollectionDecorator) {
+  function (Marionette, template, ItemView, app) {
     'use strict';
 
     return Marionette.CompositeView.extend({
@@ -32,28 +30,6 @@ define(
         var self = this;
         this.listenTo(this.collection, 'all', this.updateToggleCheckbox, this);
         this.listenTo(this.collection, 'all', this.updateVisibility, this);
-
-        app.vent.on('todoList:filter', function (filter) {
-          var completed = filter === "active" ? false : true;
-          var newFilter = function(model){
-            var status = model.get('completed');
-            if(filter === "") return true;
-            return status === completed;
-          };
-          self.collection.updateConfiguration({
-            filterConfig: {
-              filter: newFilter
-            }
-          });
-        });
-
-        app.vent.on("todoList:page", function(pageNumber){
-          self.collection.updateConfiguration({
-            pagingConfig: {
-              currentPage: pageNumber
-            }
-          });
-        });
       },
 
       onRender: function () {

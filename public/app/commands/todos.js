@@ -35,25 +35,27 @@ define(
         return defer.promise;
       });
 
+      var filteredTodoList = null;
       app.reqres.setHandler("todoList:filtered", function (model) {
         var defer = Q.defer();
         app.reqres.request("todoList").done(function (todos) {
-          var list = new FilteredCollectionDecorator(null, {collection: todos});
-          defer.resolve(list);
+          filteredTodoList = filteredTodoList || new FilteredCollectionDecorator(null, {collection: todos});
+          defer.resolve(filteredTodoList);
         });
         return defer.promise;
       });
 
+      var pagedFilteredTodoList = null;
       app.reqres.setHandler("todoList:paged", function (model) {
         var defer = Q.defer();
         app.reqres.request("todoList:filtered").done(function (todos) {
-          var list = new PagedCollectionDecorator(null, {
+          pagedFilteredTodoList = pagedFilteredTodoList || new PagedCollectionDecorator(null, {
             collection: todos,
             pagingConfig: {
               resultsPerPage: 4
             }
           });
-          defer.resolve(list);
+          defer.resolve(pagedFilteredTodoList);
         });
         return defer.promise;
       });

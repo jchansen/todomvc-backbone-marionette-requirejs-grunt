@@ -29,8 +29,21 @@ define(
         this.listenTo(this.collection, 'all', this.updateCompletedCount, this);
         this.listenTo(this.collection, 'all', this.updateVisibility, this);
 
+        self.filteredCollection = options.filteredCollection;
         app.vent.on('todoList:filter', function (filter) {
           self.updateFilterSelection(filter);
+
+          var completed = filter === "active" ? false : true;
+          var newFilter = function(model){
+            var status = model.get('completed');
+            if(filter === "") return true;
+            return status === completed;
+          };
+          self.filteredCollection.updateConfiguration({
+            filterConfig: {
+              filter: newFilter
+            }
+          });
         });
       },
 

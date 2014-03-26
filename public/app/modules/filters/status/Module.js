@@ -18,6 +18,13 @@ define(
             defer.resolve(todos);
           });
           return defer.promise;
+        },
+        filteredCollection: function(){
+          var defer = Q.defer();
+          app.reqres.request("todoList:paged").done(function(todos){
+            defer.resolve(todos);
+          });
+          return defer.promise;
         }
       }
     });
