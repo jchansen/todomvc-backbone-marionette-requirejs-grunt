@@ -13,7 +13,10 @@ require.config({
     tpl: 'lib/tpl',
     text: 'lib/text',
     toastr: '../javascripts/toastr',
-    spin: '../javascripts/spin'
+    spin: '../javascripts/spin',
+    'socket.io': "//localhost:3001/socket.io/socket.io",
+    //backboneio: "//localhost:3001/socket.io/backbone.io",
+    'backbone.sync.socketio': 'lib/backbone.sync.socketio'
   },
 
   shim: {
@@ -36,6 +39,10 @@ require.config({
       deps: ['underscore', 'backbone', 'marionette', 'q'],
       exports: 'Conductor'
     }
+
+//    'backboneio': {
+//      deps: ['backbone']
+//    }
   }
 });
 
