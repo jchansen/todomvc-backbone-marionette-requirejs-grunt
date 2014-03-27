@@ -8,8 +8,8 @@ define(
     'use strict';
 
     return Backbone.Model.extend({
-      urlRoot: "http://todomvc-api.herokuapp.com/api/todos",
-      //urlRoot: "http://localhost:3001/api/todos",
+      //urlRoot: "http://todomvc-api.herokuapp.com/api/todos",
+      urlRoot: "http://localhost:3001/api/todos",
       idAttribute: "_id",
 
       defaults: {
