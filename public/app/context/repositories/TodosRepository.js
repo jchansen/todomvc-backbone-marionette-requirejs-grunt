@@ -23,7 +23,7 @@ define(
 
         this.mediator = new SocketIoMediator({
           repository: this,
-          channel: ""
+          channel: "/todos"
         })
       }
 
