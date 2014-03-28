@@ -14,7 +14,7 @@ require.config({
     text: 'lib/text',
     toastr: '../javascripts/toastr',
     spin: '../javascripts/spin',
-    'socket.io': "//localhost:3001/socket.io/socket.io"
+    'socket.io': '../javascripts/socket.io'
   },
 
   shim: {
@@ -38,9 +38,6 @@ require.config({
       exports: 'Conductor'
     }
 
-//    'backboneio': {
-//      deps: ['backbone']
-//    }
   }
 });
 
