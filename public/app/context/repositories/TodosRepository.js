@@ -3,9 +3,10 @@ define(
     'context/BackboneRepository',
     'collections/TodoList',
     'context/loggers/RepositoryLogger',
-    'context/realtime/SocketIoMediator'
+    'context/realtime/SocketIoMediator',
+    'globals'
   ],
-  function (BackboneRepository, TodoList, RepositoryLogger, SocketIoMediator) {
+  function (BackboneRepository, TodoList, RepositoryLogger, SocketIoMediator, globals) {
 
     var Repository = BackboneRepository.extend({
       _collectionType: TodoList,
@@ -23,6 +24,7 @@ define(
 
         this.mediator = new SocketIoMediator({
           repository: this,
+          url: globals.API_ROOT_URL,
           channel: "/todos"
         })
       }
