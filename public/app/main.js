@@ -14,9 +14,7 @@ require.config({
     text: 'lib/text',
     toastr: '../javascripts/toastr',
     spin: '../javascripts/spin',
-    'socket.io': "//localhost:3001/socket.io/socket.io",
-    //backboneio: "//localhost:3001/socket.io/backbone.io",
-    'backbone.sync.socketio': 'lib/backbone.sync.socketio'
+    'socket.io': "//localhost:3001/socket.io/socket.io"
   },
 
   shim: {
