@@ -2,14 +2,14 @@
 
 define(
   [
-    'backbone'
+    'backbone',
+    'globals'
   ],
-  function (Backbone) {
+  function (Backbone, globals) {
     'use strict';
 
     return Backbone.Model.extend({
-      urlRoot: "http://todomvc-api.herokuapp.com/api/todos",
-      //urlRoot: "http://localhost:3001/api/todos",
+      urlRoot: globals.API_ROOT_URL + "/api/todos",
       idAttribute: "_id",
 
       defaults: {

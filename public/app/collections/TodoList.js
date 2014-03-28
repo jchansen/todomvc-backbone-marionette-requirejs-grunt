@@ -3,9 +3,10 @@
 define(
   [
     'backbone',
-    'models/Todo'
+    'models/Todo',
+    'globals'
   ],
-  function (Backbone, Todo) {
+  function (Backbone, Todo, globals) {
     'use strict';
 
     function isCompleted(todo) {
@@ -14,8 +15,7 @@ define(
 
     return Backbone.Collection.extend({
       model: Todo,
-      url: "http://todomvc-api.herokuapp.com/api/todos",
-      //url: "http://localhost:3001/api/todos",
+      url: globals.API_ROOT_URL + "/api/todos",
 
       getCompleted: function () {
         return this.filter(isCompleted);
@@ -28,5 +28,6 @@ define(
       comparator: function (todo) {
         return todo.get('created');
       }
+
     });
   });

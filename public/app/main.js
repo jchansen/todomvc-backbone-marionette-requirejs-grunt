@@ -13,7 +13,8 @@ require.config({
     tpl: 'lib/tpl',
     text: 'lib/text',
     toastr: '../javascripts/toastr',
-    spin: '../javascripts/spin'
+    spin: '../javascripts/spin',
+    'socket.io': '../javascripts/socket.io'
   },
 
   shim: {
@@ -36,6 +37,7 @@ require.config({
       deps: ['underscore', 'backbone', 'marionette', 'q'],
       exports: 'Conductor'
     }
+
   }
 });
 
