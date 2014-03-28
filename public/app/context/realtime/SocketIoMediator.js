@@ -9,8 +9,9 @@ define(
 
       initialize: function(options){
         this.repository = options.repository;
+        this.url = options.url;
         this.channel = options.channel;
-        this.socket = socketio.connect('//localhost:3001' + this.channel);
+        this.socket = socketio.connect(this.url + this.channel);
 
         // bind to the events we want to listen to
         this.listenTo(this.repository, "add", this.onAdd, this);
