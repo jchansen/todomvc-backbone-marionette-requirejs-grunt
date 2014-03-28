@@ -44,17 +44,28 @@
     }
 
     var defer = Q.defer();
+
+    var model = this;
     if(type === 'GET'){
       socket.emit('get', params.data);
-      socket.on('get', function(data){
-        options.success(data);
+      socket.on('get', function(resp){
+        //options.success(data);
+
+        model.set(model.parse(resp, options), options);
+        model.trigger('sync', model, resp, options);
+
         defer.resolve(data);
       });
 
     }else if(type === 'POST'){
       socket.emit('post', params.data);
+      var model = this;
       socket.on('post', function(data){
-        options.success(data);
+        //options.success(data);
+
+        model.set(model.parse(resp, options), options);
+        model.trigger('sync', model, resp, options);
+
         defer.resolve(data);
       });
 
@@ -62,14 +73,30 @@
       socket.emit('put', params.data);
       socket.on('put', function(data){
         options.success(data);
+
+        model.set(model.parse(resp, options), options);
+        model.trigger('sync', model, resp, options);
+
         defer.resolve(data);
       });
 
     }else if(type === 'DELETE'){
       params.data[model.idAttribute] = model.id;
       socket.emit('delete', params.data);
+
+      var model = this;
+      var destroy = function() {
+        model.trigger('destroy', model, model.collection, options);
+      };
+
       socket.on('delete', function(data){
         options.success(data);
+
+
+        if (options.wait || model.isNew()) destroy();
+        if (success) success(model, resp, options);
+        if (!model.isNew()) model.trigger('sync', model, resp, options);
+
         defer.resolve(data);
       });
 
