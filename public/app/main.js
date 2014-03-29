@@ -14,7 +14,9 @@ require.config({
     text: 'lib/text',
     toastr: '../javascripts/toastr',
     spin: '../javascripts/spin',
-    'socket.io': '../javascripts/socket.io'
+    'socket.io': '../javascripts/socket.io',
+    oauth: 'lib/oauth',
+    bacon: '../javascripts/bacon'
   },
 
   shim: {
@@ -36,6 +38,11 @@ require.config({
     'conductor': {
       deps: ['underscore', 'backbone', 'marionette', 'q'],
       exports: 'Conductor'
+    },
+
+    oauth: {
+      deps: ['jquery'],
+      exports: 'OAuth'
     }
 
   }

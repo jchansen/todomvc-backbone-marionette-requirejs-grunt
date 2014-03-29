@@ -15,7 +15,8 @@ define(
       banner: '#bannerRegion',
       notepad: '#notepadRegion',
       filters: '#filtersRegion',
-      info: '#infoRegion'
+      info: '#infoRegion',
+      auth: '#authRegion'
     });
 
     app.on("initialize:before", function () {
