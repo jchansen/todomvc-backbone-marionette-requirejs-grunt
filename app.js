@@ -9,6 +9,7 @@ var http = require('http');
 var path = require('path');
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
+var User = require('./db').User;
 
 /**
  * OAuth setup.
@@ -22,11 +23,13 @@ var GitHubStrategy = require('passport-github').Strategy;
 //   have a database of user records, the complete GitHub profile is serialized
 //   and deserialized.
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(obj, done) {
-  done(null, obj);
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
 });
 
 // Use the GitHubStrategy within Passport.
@@ -45,7 +48,34 @@ passport.use(new GitHubStrategy({
     // represent the logged-in user.  In a typical application, you would want
     // to associate the GitHub account with a user record in your database,
     // and return that user instead.
-    return done(null, profile);
+
+    // Implementation borrowed from:
+    // http://stackoverflow.com/questions/20431049/what-is-function-user-findorcreate-doing-and-when-is-it-called-in-passport
+    User.findOne({
+      'github.id': profile.id
+    }, function(err, user) {
+      if (err) {
+        return done(err);
+      }
+      //No user was found, so create a new user with values from Github (all the profile. stuff)
+      if (!user) {
+        user = new User({
+          name: profile.displayName,
+          email: profile.emails[0].value,
+          username: profile.username,
+          provider: 'github',
+          //now in the future searching on User.findOne({'github.id': profile.id } will match because of this next line
+          github: profile._json
+        });
+        user.save(function(err) {
+          if (err) console.log(err);
+          return done(err, user);
+        });
+      } else {
+        //found user. Return
+        return done(err, user);
+      }
+    });
   }
 ));
 
