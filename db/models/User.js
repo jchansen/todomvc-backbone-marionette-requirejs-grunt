@@ -1,11 +1,5 @@
 var mongoose = require('mongoose');
 
-var mongoUri = process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/todomvc';
-
-mongoose.connect(mongoUri);
-
 var userSchema = mongoose.Schema({
   name: { type: String, required: true },
   username: { type: String, required: true, unique: true },
@@ -16,4 +10,4 @@ var userSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
-exports.User = User;
+module.exports = User;
