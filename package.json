@@ -13,7 +13,10 @@
     "grunt": "~0.4.1",
     "grunt-contrib-requirejs": "0.4.1",
     "grunt-contrib-sass": "*",
-    "grunt-mocha": "*"
+    "grunt-mocha": "*",
+
+    "passport": "0.2.0",
+    "passport-github": "0.1.5"
   },
   "devDependencies": {
     
