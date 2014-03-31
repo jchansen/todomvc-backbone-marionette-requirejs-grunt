@@ -10,10 +10,9 @@ define(
     'modules/banner/Module',
     'modules/notepad/Module',
     'modules/filters/Module',
-    'modules/info/Module',
-    'modules/auth/Module'
+    'modules/info/Module'
   ],
-  function (Marionette, _, app, Q, BannerModule, NotepadModule, FiltersModule, InfoModule, AuthModule) {
+  function (Marionette, _, app, Q, BannerModule, NotepadModule, FiltersModule, InfoModule) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -41,8 +40,7 @@ define(
             (new BannerModule()).render(app.banner),
             (new NotepadModule()).render(app.notepad),
             (new FiltersModule()).render(app.filters),
-            (new InfoModule()).render(app.info),
-            (new AuthModule()).render(app.auth)
+            (new InfoModule()).render(app.info)
           ]).done(function () {
             self.setFilter(param);
             self.setSortingFilter('date');
