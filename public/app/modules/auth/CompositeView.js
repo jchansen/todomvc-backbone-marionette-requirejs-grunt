@@ -7,9 +7,10 @@ define(
     'oauth',
     'collections/GitHubUsers',
     './ItemView',
-    'bacon'
+    'bacon',
+    'globals'
   ],
-  function (Marionette, template, OAuth, GitHubUsers, UserItemView, Bacon) {
+  function (Marionette, template, OAuth, GitHubUsers, UserItemView, Bacon, globals) {
     'use strict';
 
     return Marionette.CompositeView.extend({
@@ -17,15 +18,18 @@ define(
       itemView: UserItemView,
 
       initialize: function(options){
-        //http://localhost:3000/OAuth.initialize('zPNdXMAlrzo5cJXLmHLYM5Q7UMQ');
+        // This initializes oauth.io's client side popup
+        //http://localhost:3000/OAuth.initialize(globals.OAUTHIO_APP_ID);
+
+        // test code for auto-complete of github users
         this.collection = new GitHubUsers();
         this.collection.fetch({
-          //url: "https://api.github.com/search/users?q=jason hansen&client_id=03d93a0ae23a3c61116e&client_secret=539e52e3a74a24acdde99f16fac5bdf8e2c128fb",
+          //url: "https://api.github.com/search/users?q=jason hansen&client_id=GITHUB_CLIENT_ID&client_secret=GITHUB_CLIENT_SECRET",
           url: "https://api.github.com/search/users",
           data: {
             q: 'jason hansen',
-            client_id: '03d93a0ae23a3c61116e',
-            client_secret: '539e52e3a74a24acdde99f16fac5bdf8e2c128fb'
+            client_id: globals.GITHUB_CLIENT_ID,
+            client_secret: globals.GITHUB_CLIENT_SECRET
           },
           beforeSend: function(xhr) {
             xhr.setRequestHeader('Accept', 'application/vnd.github.v3.text-match+json');
@@ -66,12 +70,12 @@ define(
             console.log(text);
 
             that.collection.fetch({
-              //url: "https://api.github.com/search/users?q=jason hansen&client_id=03d93a0ae23a3c61116e&client_secret=539e52e3a74a24acdde99f16fac5bdf8e2c128fb",
+              //url: "https://api.github.com/search/users?q=jason hansen&client_id=GITHUB_CLIENT_ID&client_secret=GITHUB_CLIENT_SECRET",
               url: "https://api.github.com/search/users",
               data: {
                 q: text,
-                client_id: '03d93a0ae23a3c61116e',
-                client_secret: '539e52e3a74a24acdde99f16fac5bdf8e2c128fb'
+                client_id: globals.GITHUB_CLIENT_ID,
+                client_secret: globals.GITHUB_CLIENT_SECRET
               },
               beforeSend: function(xhr) {
                 xhr.setRequestHeader('Accept', 'application/vnd.github.v3.text-match+json');
