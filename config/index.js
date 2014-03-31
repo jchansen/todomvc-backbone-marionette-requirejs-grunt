@@ -1,6 +1,6 @@
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
-var User = require('db').User;
+var User = require('../db').User;
 
 module.exports.setupPassport = function(){
   // Use the GitHubStrategy within Passport.
