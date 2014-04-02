@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Backbone.Conductor Tests</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- Mocha styles. -->
+    <link rel="stylesheet" href="../js/lib/mocha.css"/>
+
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <!-- Test libraries. -->
+    <script src="../js/lib/mocha.js"></script>
+    <script src="../js/lib/chai.js"></script>
+    <script src="../js/lib/sinon.js"></script>
+
+    <script>
+        mocha.ui('bdd');
+        mocha.reporter('html');
+        expect = chai.expect;
+    </script>
+
+    <script src="controllers/users.spec.js"></script>
+    <script>
+        if (window.mochaPhantomJS) {
+            mochaPhantomJS.run();
+        } else {
+            mocha.run();
+        }
+    </script>
+</body>
+</html>

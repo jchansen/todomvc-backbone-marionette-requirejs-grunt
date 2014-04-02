@@ -13,9 +13,13 @@
     "grunt": "~0.4.1",
     "grunt-contrib-requirejs": "0.4.1",
     "grunt-contrib-sass": "*",
-    "grunt-mocha": "*"
+    "grunt-mocha": "*",
+    "connect-flash": "0.1.1",
+    "request": "*",
+    "ejs-locals": "~1.0.2",
+    "cheerio": "*",
+    "zombie-phantom": "0.0.6",
+    "zombie": "*"
   },
-  "devDependencies": {
-    
-  }
+  "devDependencies": {}
 }
